@@ -1,0 +1,48 @@
+.layout > div {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+.layout > div > div {
+	display: inline-block;
+	text-align: left;
+}
+
+.topheader {
+	height: 40px;
+	background-color: var(--bg-dark);
+}
+
+.bottomheader {
+	height: 60px;
+	background-color: #fefefe;
+	box-shadow: 0 1px 10px rgba(151,164,175,.1);
+}
+
+.content {
+	min-height: calc(100vh - 160px);
+}
+
+.footer {
+	height: 60px;
+	background-color: var(--bg-dark);
+}
+
+@media screen and (min-width: 1300px) {
+	.sizer {
+		width: 1200px;
+	}
+}
+
+@media screen and (min-width: 600px) and (max-width: 1300px) {
+	.sizer {
+		width: 90vw;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.sizer {
+		width: 95vw;
+	}
+}
