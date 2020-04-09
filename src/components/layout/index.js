@@ -3,6 +3,7 @@ import './index.css';
 
 import HeaderSearch from '../headersearch';
 import MainHeader from '../mainheader';
+import Footer from '../footer';
 
 class Layout extends React.Component {
 	render() {
@@ -25,7 +26,7 @@ class Layout extends React.Component {
 				</div>
 				<div className="footer">
 					<div className="sizer">
-					
+						<Footer />
 					</div>
 				</div>
 			</div>

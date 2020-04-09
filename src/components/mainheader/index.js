@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { HamburgerButton } from 'react-hamburger-button';
 import './index.css';
 
+import logo from './logo.svg';
+
 class MainHeader extends React.Component {
 	constructor() {
 		super();
@@ -27,7 +29,9 @@ class MainHeader extends React.Component {
 		return (
 			<div className="mainheader">
 				<div className="logo">
-				
+					<NavLink to="/">
+						<img src={logo} alt="AlgoSearch logo" />
+					</NavLink>
 				</div>
 				<div className="menu">
 					<nav>

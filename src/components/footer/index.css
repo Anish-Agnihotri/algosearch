@@ -1,0 +1,20 @@
+.footerItem > p {
+	margin-block-start: 0px;
+	font-size: 15px;
+	color: #7f96ae;
+	font-weight: 500;
+	margin-block-start: 22.5px;
+	margin-block-end: 0px;
+}
+
+.footerItem > p > a {
+	text-decoration: none;
+	color: #7f96ae;
+	padding-bottom: 1px;
+	border-bottom: 1px dotted #7f96ae;
+	transition: 100ms ease-in-out;
+}
+
+.footerItem > p > a:hover {
+	padding-bottom: 0px;
+}

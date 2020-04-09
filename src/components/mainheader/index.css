@@ -12,7 +12,15 @@
 
 .logo {
 	width: 200px;
-	background-color: #ccc;
+}
+
+.logo > a {
+	text-decoration: none;
+}
+
+.logo > a > img {
+	width: 160px;
+	margin-top: 18.085px;
 }
 
 .menu {
@@ -119,6 +127,7 @@
 
 .hidden {
 	display: none !important;
+	opacity: 1;
 }
 
 .shown {
