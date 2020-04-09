@@ -31,8 +31,7 @@
 
 @media screen and (max-width: 850px) {
 	.statscard {
-		width: 100%;
-		display: inline-block;
+		width: 96%;
 		margin-bottom: 15px;
 	}
 }

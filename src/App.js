@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Page imports
 import Home from './pages/Home';
+import Block from './pages/Block';
 import Blocks from './pages/Blocks';
 import Transactions from './pages/Transactions';
 import Analytics from './pages/Analytics';
@@ -16,6 +17,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/blocks" exact component={Blocks} />
+          <Route path="/block/:blocknum" component={Block} />
           <Route path="/transactions" exact component={Transactions} />
           <Route path="/analytics" exact component={Analytics} />
           <Route path="/richlist" exact component={RichList} />

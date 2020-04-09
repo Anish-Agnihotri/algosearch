@@ -19,11 +19,11 @@ class RichList extends React.Component {
 						value="98.201 Billion"
 					/>
 					<Statscard
-						stat="Total Top 100 Algo Value"
+						stat="Total Algo Supply"
 						value="98.201 Billion"
 					/>
 					<Statscard
-						stat="Total Top 100 Algo Value"
+						stat="Total Unique Addresses"
 						value="98.201 Billion"
 					/>
 				</div>

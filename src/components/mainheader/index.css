@@ -50,6 +50,10 @@
 	background-color: #fff;
 }
 
+.active {
+	color: #337afe !important;
+}
+
 .menu > nav > ul > li > a:hover {
 	color: #337afe;
 }
