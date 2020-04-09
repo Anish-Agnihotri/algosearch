@@ -1,0 +1,53 @@
+.breadcrumbs {
+	border-bottom: 1px solid #e7eaf3;
+	padding: 2px 0px;
+}
+
+.breadcrumbs > div {
+	display: inline-block;
+}
+
+.breadcrumbs > div:last-child {
+	float: right;
+	padding-top: 5px;
+}
+
+.breadcrumbs > div > h1 {
+	font-size: 22px;
+	color: rgb(30, 32, 34);
+}
+
+.breadcrumbs > div > p {
+	font-size: 15px;
+	color: rgb(1, 33, 55);
+	font-weight: 400;
+}
+
+.breadcrumbs > div > p > a {
+	text-decoration: none;
+	color: #337afe;
+	transition: 50ms ease-in-out;
+}
+
+.breadcrumbs > div > p > a:hover {
+	color: #0150e3;
+}
+
+.breadcrumbs > div > p > span {
+	color: #97a4af;
+	font-weight: 500;
+}
+
+@media screen and (max-width: 600px) {
+	.breadcrumbs {
+		padding-bottom: 28px;
+	}
+	.breadcrumbs > div {
+		width: 100%;
+		margin-bottom: 0px;
+		padding-top: 0px !important;
+	}
+	.breadcrumbs > div:last-child {
+		margin-top: -20px;
+	}
+}
