@@ -19,13 +19,6 @@ module.exports = function(app) {
 		:limit = maximum 100 records retrieved
 		:full = if 0, return truncated data, else return full data
 	*/
-
-	app.get('/all/currentblock', function(req, res) {
-		nano.db.use('blocks').info().then(body => {
-			res.send({"round": parseInt(body.doc_count) - 1});
-		});
-	});
-
     app.get('/all/blocks/:lastBlock/:limit/:full', function(req, res) {
 		var lastBlock = parseInt(req.params.lastBlock);
 		var limit = parseInt(req.params.limit);

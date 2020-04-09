@@ -1,0 +1,154 @@
+.table {
+	background-color: #fff;
+	box-shadow: 0 0 35px rgba(127,150,174,.125);
+	border: 1px solid rgb(231, 234, 243);
+	border-radius: 8px;
+	margin-top: 28px;
+	margin-bottom: 50px;
+}
+
+.table > div:first-child {
+	padding-left: 20px;
+}
+
+.table > div:first-child > p:first-child {
+	color: #6984aa;
+	font-weight: 500;
+	font-size: 18px;
+	margin-block-end: 5px;
+}
+
+.table > div:first-child > p:last-child {
+	color: #7f96ae;
+	font-size: 13px;
+	font-weight: 500;
+	margin-block-start: 0px;
+	margin-block-end: 15px;
+}
+
+.blocks-table {
+	border: none !important;
+}
+
+.blocks-table > div > .rt-thead {
+	background-color: #f8fafd;
+	border-top: 1px solid rgb(231, 234, 243);
+	border-bottom: 1px solid rgb(231, 234, 243);
+	height: 40px;
+	font-size: 13px;
+	text-transform: uppercase;
+	color: #7f96ae;
+	font-weight: 700;
+	box-shadow: none !important;
+}
+
+.blocks-table > div > .rt-thead > div > div {
+	border-right: none !important;
+}
+
+.blocks-table > div > .rt-thead > div > div > div:first-child {
+	padding-top: 7px;
+	text-align: left;
+}
+
+.blocks-table > div > .rt-thead > div > div:first-child > div:first-child {
+	padding-left: 15px;
+	color: #337afe;
+}
+
+.blocks-table > div > .rt-tbody > .rt-tr-group {
+	line-height: 30px;
+	font-size: 15.5px;
+}
+
+.blocks-table > div > .rt-tbody > .rt-tr-group > div > div:first-child {
+	padding-left: 18px;
+}
+
+.blocks-table > div > .rt-tbody > .rt-tr-group > div > div > a {
+	color: #337afe;
+	text-decoration: none;
+	font-weight: 500;
+	transition: 50ms ease-in-out;
+}
+
+.blocks-table > div > .rt-tbody > .rt-tr-group > div > div > a:hover {
+	color: #0150e3;
+}
+
+.blocks-table > div > .rt-tbody > .rt-tr-group > div > div {
+	border-right: none;
+}
+
+.blocks-table > div > .rt-tbody > div {
+	border-bottom-color: rgb(231, 234, 243) !important;
+}
+
+.blocks-table > div > .rt-tbody > div:last-child  {
+	border-bottom: 1px solid rgb(231, 234, 243) !important;
+}
+
+/* Custom sizing based on column content */
+.blocks-table > div > .rt-thead > div > div:nth-child(1), .blocks-table > div > .rt-tbody > div > div > div:nth-child(1) {
+	min-width: 150px;
+	max-width: 150px !important;
+}
+
+.blocks-table > div > .rt-thead > div > div:nth-child(2), .blocks-table > div > .rt-tbody > div > div > div:nth-child(2) {
+	min-width: 130px;
+	max-width: 130px !important;
+}
+
+.blocks-table > div > .rt-thead > div > div:nth-child(3), .blocks-table > div > .rt-tbody > div > div > div:nth-child(3) {
+	min-width: 620px;
+	width: calc(100% - 420px);
+}
+
+.blocks-table > div > .rt-thead > div > div:nth-child(4), .blocks-table > div > .rt-tbody > div > div > div:nth-child(4) {
+	min-width: 140px;
+	max-width: 140px !important;
+}
+
+.blocks-table > div:nth-child(1) > div {
+	min-width: 1040px !important;
+}
+
+/* Pagination */
+.-pagination {
+	box-shadow: none !important;
+	border-top: none !important;
+	padding: 10px 0px !important;
+}
+
+.-previous > button, .-next > button {
+	background-color: rgba(105, 132, 170, 0.1) !important;
+	border: none !important;
+	width: 100px !important;
+	color: #6984aa !important;
+	font-weight: 500;
+	transition: 100ms ease-in-out;
+	display: inline-block !important;
+}
+
+.-previous > button:hover, .-next > button:hover {
+	color: #fff !important;
+	background-color: #6984aa !important;
+	box-shadow: 0 4px 11px rgba(105,132,170,.35);
+}
+
+.-previous {
+	text-align: left !important;
+	padding-left: 15px;
+}
+
+.-center {
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: 500;
+	color: #6984aa;
+}
+
+.-next {
+	text-align: right !important;
+	padding-right: 15px;
+}

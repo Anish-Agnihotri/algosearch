@@ -1,17 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment';
+import './index.css';
+import { NavLink } from 'react-router-dom';
 import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
 import Statscard from '../../components/statscard';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 
-/*
-	TODO:
-	2. Isolate block number to stats
-	3. Styling react
-	4. Column cell linking, etc.
-*/
 class Blocks extends React.Component {
 	constructor() {
 		super();
@@ -52,12 +49,12 @@ class Blocks extends React.Component {
 		// Call stats to get current round number
 		axios({
 			method: 'get',
-			url: 'http://localhost:8000/all/currentblock'
+			url: 'http://localhost:8000/stats'
 		}).then(response => {
 			// Use current round number to retrieve last 25 blocks
 			axios({
 				method: 'get',
-				url: `http://localhost:8000/all/blocks/${response.data.round + 1}/25/0`,
+				url: `http://localhost:8000/all/blocks/${response.data.current_round + 1}/25/0`,
 			}).then(response => {
 				this.setState({
 					blocks: response.data, // Set blocks data
@@ -76,10 +73,10 @@ class Blocks extends React.Component {
 	render() {
 		// Table columns
 		const columns = [
-			{Header: 'Round', accessor: 'round'}, 
+			{Header: 'Round', accessor: 'round', Cell: props => <NavLink to={`/block/${props.value}`}>{props.value}</NavLink>}, 
 			{Header: 'Transactions', accessor: 'transactions'}, 
-			{Header: 'Proposed by', accessor: 'proposer'}, 
-			{Header: 'Time', accessor: 'timestamp'}
+			{Header: 'Proposed by', accessor: 'proposer', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>}, 
+			{Header: 'Time', accessor: 'timestamp', Cell: props => <span>{moment.unix(props.value).fromNow()}</span>}
 		];
 
 		return (
@@ -104,9 +101,10 @@ class Blocks extends React.Component {
 						value="98.201 Billion"
 					/>
 				</div>
-				<div className="blockTable">
+				<div className="table">
 					<div>
-					
+						<p>{this.state.current_round} blocks found</p>
+						<p>(Showing the last {this.state.pageSize} records)</p>
 					</div>
 					<div>
 						<ReactTable
@@ -120,6 +118,8 @@ class Blocks extends React.Component {
 							pageSizeOptions={[25, 50, 100]}
 							onPageChange={pageIndex => this.updateBlocks(pageIndex)}
 							onPageSizeChange={(pageSize, pageIndex) => this.updatePageSize(pageIndex, pageSize)}
+							sortable={false}
+							className="blocks-table"
 							manual
 						/>
 					</div>
