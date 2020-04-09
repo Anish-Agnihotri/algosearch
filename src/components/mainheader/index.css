@@ -51,7 +51,7 @@
 }
 
 .active {
-	color: #337afe !important;
+	color: #337afe;
 }
 
 .menu > nav > ul > li > a:hover {
@@ -65,7 +65,7 @@
 .menu > nav > ul > li:last-child > a {
 	background-color: #337afe;
 	border-radius: 5px;
-	color: #fff;
+	color: #fff !important;
 	transition: 200ms ease-in-out;
 }
 
@@ -117,7 +117,7 @@
 
 .menu-mobile > nav > ul > li:last-child > a {
 	background-color: #337afe;
-	color: #fff;
+	color: #fff !important;
 	border-radius: 5px;
 	padding: 7px 10px;
 	margin-top: 3px;

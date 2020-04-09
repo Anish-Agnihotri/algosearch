@@ -13,6 +13,15 @@ const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${c
 
 module.exports = function(app) {
 
+	app.get('/block/:blocknumber', function(req, res) {
+		const round = parseInt(req.params.blocknumber);
+		nano.db.use('blocks').list({include_docs: true, skip: round, limit: 1}).then(body => {
+			res.send(body.rows[0].doc);
+		}).catch(error => {
+			res.status(501);
+			console.log(`Exception when retrieving block number ${round}: ${error}`);
+		})
+	});
 	/*
 		Block information endpoint
 		:lastBlock = last block to pull from
@@ -49,7 +58,10 @@ module.exports = function(app) {
 				}
 			}
 			res.send(blocks);
-		});
+		}).catch(error => {
+			res.status(501);
+			console.log("Exception when listing all blocks: " + error);
+		})
     });
 
 }

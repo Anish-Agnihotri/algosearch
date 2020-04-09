@@ -41,6 +41,8 @@ class Blocks extends React.Component {
 			url: `http://localhost:8000/all/blocks/${headBlock}/${this.state.pageSize}/0` // Use pageSize from state
 		}).then(response => {
 			this.setState({blocks: response.data}); // Set blocks to new data to render
+		}).catch(error => {
+			console.log("Exception when updating blocks: " + error);
 		})
 	};
 
@@ -62,7 +64,11 @@ class Blocks extends React.Component {
 					pages: Math.ceil(response.data[0].round / 25), // Set pages to rounded up division
 					loading: false // Set loading to false
 				});
+			}).catch(error => {
+				console.log("Exception when retrieving last 25 blocks: " + error);
 			})
+		}).catch(error => {
+			console.log("Exception when retrieving current round number: " + error);
 		})
 	};
 
