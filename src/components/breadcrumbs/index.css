@@ -1,6 +1,7 @@
 .breadcrumbs {
 	border-bottom: 1px solid #e7eaf3;
 	padding: 2px 0px;
+	margin-bottom: 24px;
 }
 
 .breadcrumbs > div {

@@ -1,0 +1,44 @@
+.cardcontainer {
+	display: flex;
+	justify-content: space-between;
+	height: auto;
+}
+
+.statscard {
+	background-color: #fff;
+	border: 1px solid rgb(231, 234, 243);
+	border-radius: 8px;
+	height: 80px;
+	width: calc(31.5% - 17px);
+	display: inline-block;
+	padding-left: 17px;
+	box-shadow: 0 0 35px rgba(127,150,174,.125);
+}
+
+.statscard > h2 {
+	color: #6984aa;
+	font-weight: 600;
+	font-size: 13.5px;
+	text-transform: uppercase;
+	margin-block-start: 18px;
+}
+
+.statscard > span {
+	font-size: 17px;
+	display: inline-block;
+	margin-block-start: -4px;
+}
+
+@media screen and (max-width: 850px) {
+	.statscard {
+		width: 100%;
+		display: inline-block;
+		margin-bottom: 15px;
+	}
+}
+
+@media screen and (max-width: 850px) {
+	.cardcontainer {
+		flex-direction: column;
+	}
+}

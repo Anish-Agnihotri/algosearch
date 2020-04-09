@@ -54,6 +54,10 @@
 	color: #337afe;
 }
 
+.menu > nav > ul > li:last-child {
+	margin-right: 0px !important;
+}
+
 .menu > nav > ul > li:last-child > a {
 	background-color: #337afe;
 	border-radius: 5px;
