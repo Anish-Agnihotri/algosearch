@@ -2,9 +2,16 @@ import React from 'react';
 import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
 import Statscard from '../../components/statscard';
+import ReactTable from 'react-table-6';
 
 class Blocks extends React.Component {
 	render() {
+		const dummyData = [{
+			'round': '',
+			'transactions': '',
+			'proposedby': '',
+			'time': ''
+		}];
 		return (
 			<Layout>
 				<Breadcrumbs
@@ -27,7 +34,14 @@ class Blocks extends React.Component {
 						value="98.201 Billion"
 					/>
 				</div>
-				<p>Blocks</p>
+				<div className="blockTable">
+					<div>
+					
+					</div>
+					<div>
+
+					</div>
+				</div>
 			</Layout>
 		);
 	}

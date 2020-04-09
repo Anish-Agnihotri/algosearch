@@ -12,7 +12,8 @@
     "react-dom": "^16.13.1",
     "react-hamburger-button": "^0.0.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-table-6": "^6.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
