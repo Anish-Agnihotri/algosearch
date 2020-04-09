@@ -14,6 +14,7 @@ class Block extends React.Component {
 	componentDidMount() {
 		const { blocknum } = this.props.match.params;
 		this.setState({blocknum: blocknum});
+		document.title=`AlgoSearch | Block ${blocknum}`;
 	}
 	render() {
 		return (

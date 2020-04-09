@@ -4,6 +4,9 @@ import Breadcrumbs from '../../components/breadcrumbs';
 import Statscard from '../../components/statscard';
 
 class RichList extends React.Component {
+	componentDidMount() {
+		document.title="AlgoSearch | Rich List";
+	}
 	render() {
 		return (
 			<Layout>

@@ -14,6 +14,7 @@ class Transaction extends React.Component {
 	componentDidMount() {
 		const { txid } = this.props.match.params;
 		this.setState({txid: txid});
+		document.title=`AlgoSearch | Transaction ${txid}`;
 	}
 	render() {
 		return (

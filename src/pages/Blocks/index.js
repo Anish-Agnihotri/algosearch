@@ -68,6 +68,7 @@ class Blocks extends React.Component {
 
 	componentDidMount() {
 		this.getBlocks(); // Get initial blocks on load
+		document.title="AlgoSearch | Blocks";
 	}
 
 	render() {

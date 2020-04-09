@@ -3,6 +3,9 @@ import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
 
 class Dev extends React.Component {
+	componentDidMount() {
+		document.title="AlgoSearch | Developer APIs";
+	}
 	render() {
 		return (
 			<Layout>

@@ -4,6 +4,9 @@ import Breadcrumbs from '../../components/breadcrumbs';
 import Statscard from '../../components/statscard';
 
 class Transactions extends React.Component {
+	componentDidMount() {
+		document.title="AlgoSearch | Transactions";
+	}
 	render() {
 		return (
 			<Layout>

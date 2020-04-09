@@ -3,6 +3,9 @@ import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
 
 class Analytics extends React.Component {
+	componentDidMount() {
+		document.title="AlgoSearch | Analytics";
+	}
 	render() {
 		return (
 			<Layout>

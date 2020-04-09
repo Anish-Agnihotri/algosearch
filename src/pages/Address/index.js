@@ -13,6 +13,7 @@ class Address extends React.Component {
 	componentDidMount() {
 		const { address } = this.props.match.params;
 		this.setState({address: address});
+		document.title=`AlgoSearch | Address ${address}`;
 	}
 	render() {
 		return (
