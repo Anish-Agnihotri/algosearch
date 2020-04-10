@@ -7,6 +7,9 @@ import Loader from 'react-loader-spinner';
 import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import ReactTable from 'react-table-6';
+import 'react-table-6/react-table.css';
+import AlgoIcon from '../../components/algoicon';
 
 class Block extends React.Component {
 	constructor() {
@@ -15,16 +18,22 @@ class Block extends React.Component {
 		this.state = {
 			blocknum: 0,
 			data: [],
+			transactions: [],
 			loading: true,
 		}
 	}
+
+	// Format algo denominations
+	formatAlgoDenom = num => {
+		return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+	};
 
 	getBlock = blockNum => {
 		axios({
 			type: 'get',
 			url: `http://localhost:8000/block/${blockNum}`
 		}).then(response => {
-			this.setState({data: response.data, loading: false});
+			this.setState({data: response.data, transactions: response.data.txns.transactions, loading: false});
 		}).catch(error => {
 			console.log(`Exception when retrieving block #${blockNum}: ${error}`)
 		})
@@ -38,6 +47,16 @@ class Block extends React.Component {
 	}
 
 	render() {
+		const columns = [
+			{Header: 'Round', accessor: 'round', Cell: props => <NavLink to={`/block/${props.value}`}>{props.value}</NavLink>}, 
+			{Header: 'TX ID', accessor: 'tx', Cell: props => <NavLink to={`/tx/${props.value}`}>{props.value}</NavLink>}, 
+			{Header: 'Type', accessor: 'type', Cell: props => <span className="type">{props.value}</span>},
+			{Header: 'From', accessor: 'from', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>}, 
+			{Header: 'To', accessor: 'payment.to', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
+			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{this.formatAlgoDenom(props.value)} <AlgoIcon /></span>},
+			{Header: 'Fee', accessor: 'fee', Cell: props => <span>{this.formatAlgoDenom(props.value)} <AlgoIcon /></span>}
+		];
+
 		return (
 			<Layout>
 				<Breadcrumbs
@@ -49,7 +68,7 @@ class Block extends React.Component {
 				<div className="block-table">
 					<span>Block Overview</span>
 					<div>
-						<table cellspacing="0">
+						<table cellSpacing="0">
 							<thead>
 								<tr>
 									<th>Identifier</th>
@@ -85,11 +104,26 @@ class Block extends React.Component {
 						</table>
 					</div>
 				</div>
+				{this.state.transactions && this.state.transactions.length > 0 ? (
+					<div className="block-table">
+						<span>Transactions</span>
+						<div>
+							<ReactTable
+								data={this.state.transactions}
+								columns={columns}
+								loading={this.state.loading}
+								defaultPageSize={5}
+								pageSizeOptions={[5, 10, 15]}
+								sortable={false}
+								className="transactions-table"
+							/>
+						</div>
+					</div>
+				) : null}
 				<div className="block-table">
 					<span>Governance Overview</span>
-				{/*TODO: Transactions table */}
 					<div>
-						<table cellspacing="0">
+						<table cellSpacing="0">
 							<thead>	
 								<tr>
 									<th>Identifier</th>
