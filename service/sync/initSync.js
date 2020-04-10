@@ -21,25 +21,6 @@ const initBlocksDB = () => {
 };
 
 /*
-	Check for addresses database
-	If it exists, continue. Else, create it.
-*/
-const initAddressesDB = () => {
-	console.log("Checking for addresses database");
-
-	nano.db.list().then(body => {
-		if (!body.includes('addresses')) {
-			console.log("addresses database does not exist, creating...");
-			nano.db.create('addresses');
-		} else {
-			console.log("addresses database exists, continuing...");
-		}
-	}).catch(error => {
-		console.log("Exception when initializing addresses: " + error);
-	})
-}
-
-/*
 	Check for transactions database
 	If it exists, continue. Else, create it.
 */
@@ -60,6 +41,5 @@ const initTransactionsDB = () => {
 
 module.exports = {
 	initBlocksDB: initBlocksDB,
-	initAddressesDB: initAddressesDB,
 	initTransactionsDB: initTransactionsDB
 };

@@ -1,7 +1,7 @@
 /*
-	blockSync.js
+	syncAll.js
 	____________
-	Syncs current round with blocks database.
+	Syncs current round with blocks and transactions database.
 */
 
 var constants = require('../global'); // Require global constants
@@ -10,7 +10,9 @@ const axios = require('axios'); // Require axios for requests
 const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${constants.dbhost}`); // Connect nano to db
 
 dbscripts.initBlocksDB(); // Check if blocks db exists, else, create it.
+dbscripts.initTransactionsDB(); // Check if transactions db exists, else, create it.
 let blocks = nano.db.use('blocks'); // Connect to blocks db
+let transactions = nano.db.use('transactions'); // Connect to transactions db
 
 /*
 	Update blocks in database based on
@@ -36,7 +38,7 @@ async function updateBlocks() {
 	// Until syncedBlockNumber !== currentRound, retrieve all blocks
 	for (syncedBlockNumber; syncedBlockNumber < currentRound; syncedBlockNumber++) {
 		await addBlock(syncedBlockNumber, currentRound);
-		await sleep(250); // TODO: Remove when live in production
+		await sleep(500); // TODO: Remove when live in production
 	}
 
 	// Once syncedBlockNumber === currentRound, run updateBlocks() once every second.
@@ -72,8 +74,14 @@ async function addBlock(blockNum, currentNum) {
 		method: 'get',
 		url: `${constants.algodurl}/block/${blockNum}`, // Get block information from algod
 		headers: {'x-api-key': constants.algodapi}
-	}).then(response => {
+	}).then(async response => {
 		blocks.insert(response.data); // Insert block data to blocks database as doc
+		if (Object.keys(response.data.txns).length > 0) {
+			let alltransactions = response.data.txns.transactions;
+			for (let i = 0; i < alltransactions.length; i++) {
+				transactions.insert(alltransactions[i]);
+			}
+		}
 		console.log(`Block added: ${blockNum} of ${currentNum}`); // Log block addition
 	}).catch(error => {
 		console.log("Exception when adding block to blocks database: " + error);

@@ -1,0 +1,108 @@
+.transactions-table {
+	border: none !important;
+}
+
+.transactions-table > div > .rt-thead {
+	background-color: #f8fafd;
+	border-top: 1px solid rgb(231, 234, 243);
+	border-bottom: 1px solid rgb(231, 234, 243);
+	height: 40px;
+	font-size: 13px;
+	text-transform: uppercase;
+	color: #7f96ae;
+	font-weight: 700;
+	box-shadow: none !important;
+}
+
+.transactions-table > div > .rt-thead > div > div {
+	border-right: none !important;
+}
+
+.transactions-table > div > .rt-thead > div > div > div:first-child {
+	padding-top: 7px;
+	text-align: left;
+}
+
+.transactions-table > div > .rt-thead > div > div:first-child > div:first-child {
+	padding-left: 15px;
+	color: #337afe;
+}
+
+.transactions-table > div > .rt-tbody > .rt-tr-group {
+	line-height: 30px;
+	font-size: 15.5px;
+}
+
+.transactions-table > div > .rt-tbody > .rt-tr-group > div > div:first-child {
+	padding-left: 18px;
+}
+
+.transactions-table > div > .rt-tbody > .rt-tr-group > div > div > a {
+	color: #337afe;
+	text-decoration: none;
+	font-weight: 500;
+	transition: 50ms ease-in-out;
+}
+
+.transactions-table > div > .rt-tbody > .rt-tr-group > div > div > a:hover {
+	color: #0150e3;
+}
+
+.transactions-table > div > .rt-tbody > .rt-tr-group > div > div {
+	border-right: none;
+}
+
+.transactions-table > div > .rt-tbody > div {
+	border-bottom-color: rgb(231, 234, 243) !important;
+}
+
+.transactions-table > div > .rt-tbody > div:last-child  {
+	border-bottom: 1px solid rgb(231, 234, 243) !important;
+}
+
+/* Custom sizing based on column content */
+.transactions-table > div > .rt-thead > div > div:nth-child(1), .transactions-table > div > .rt-tbody > div > div > div:nth-child(1) {
+	min-width: 110px;
+	max-width: 110px !important;
+} 
+
+.transactions-table > div > .rt-thead > div > div:nth-child(2), .transactions-table > div > .rt-tbody > div > div > div:nth-child(2) {
+	min-width: 340px;
+	width: calc(100% - 780px);
+}
+
+.transactions-table > div > .rt-thead > div > div:nth-child(3), .transactions-table > div > .rt-tbody > div > div > div:nth-child(3) {
+	min-width: 80px;
+	max-width: 80px !important;
+
+}
+
+.transactions-table > div > .rt-thead > div > div:nth-child(4), .transactions-table > div > .rt-tbody > div > div > div:nth-child(4) {
+	min-width: 200px;
+	max-width: 200px !important;
+}
+
+.transactions-table > div > .rt-thead > div > div:nth-child(5), .transactions-table > div > .rt-tbody > div > div > div:nth-child(5) {
+	min-width: 200px;
+	max-width: 200px !important;
+}
+
+.transactions-table > div > .rt-thead > div > div:nth-child(6), .transactions-table > div > .rt-tbody > div > div > div:nth-child(6) {
+	min-width: 150px;
+	max-width: 150px !important;
+}
+
+.transactions-table > div > .rt-thead > div > div:nth-child(7), .transactions-table > div > .rt-tbody > div > div > div:nth-child(7) {
+	min-width: 120px;
+	max-width: 120px !important;
+}
+
+.transactions-table > div:nth-child(1) > div {
+	min-width: 1040px !important;
+}
+
+.algo-icon {
+	height: 14px;
+	display: inline-block;
+	transform: translateY(1.5px);
+}
