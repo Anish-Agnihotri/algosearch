@@ -103,7 +103,7 @@ class Block extends React.Component {
 								</tr>
 								<tr>
 									<td>Next protocol</td>
-									<td>{this.state.loading ? <Load/> : this.state.data.nextProtocol}</td>
+									<td>{this.state.loading ? <Load/> : (<a href={this.state.data.nextProtocol} target="_blank" rel="noopener noreferrer">{this.state.data.nextProtocol}</a>)}</td>
 								</tr>
 								<tr>
 									<td>Next protocol approvals</td>

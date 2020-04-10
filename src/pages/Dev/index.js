@@ -15,7 +15,7 @@ class Dev extends React.Component {
 					parentLinkName="Home"
 					currentLinkName="Developer APIs"
 				/>
-				<p>Developer APIs</p>
+				<p>Coming Soon</p>
 			</Layout>
 		);
 	}

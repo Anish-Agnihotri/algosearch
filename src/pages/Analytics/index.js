@@ -15,7 +15,7 @@ class Analytics extends React.Component {
 					parentLinkName="Home"
 					currentLinkName="Analytics"
 				/>
-				<p>Analytics</p>
+				<p>Coming Soon</p>
 			</Layout>
 		);
 	}

@@ -51,7 +51,7 @@
 }
 
 .active {
-	color: #337afe;
+	color: #337afe !important;
 }
 
 .menu > nav > ul > li > a:hover {

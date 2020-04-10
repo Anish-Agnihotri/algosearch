@@ -16,6 +16,7 @@ class RichList extends React.Component {
 					parentLinkName="Home"
 					currentLinkName="Rich List"
 				/>
+				{/*
 				<div className="cardcontainer">
 					<Statscard
 						stat="Total Top 100 Algo Value"
@@ -29,7 +30,8 @@ class RichList extends React.Component {
 						stat="Total Unique Addresses"
 						value="98.201 Billion"
 					/>
-				</div>
+				</div>*/}
+				<p>Coming Soon</p>
 			</Layout>
 		);
 	}

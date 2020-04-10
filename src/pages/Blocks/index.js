@@ -8,6 +8,7 @@ import Breadcrumbs from '../../components/breadcrumbs';
 import Statscard from '../../components/statscard';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
+import AlgoIcon from '../../components/algoicon';
 
 class Blocks extends React.Component {
 	constructor() {
@@ -52,17 +53,19 @@ class Blocks extends React.Component {
 		axios({
 			method: 'get',
 			url: 'http://localhost:8000/stats'
-		}).then(response => {
+		}).then(resp => {
 			// Use current round number to retrieve last 25 blocks
 			axios({
 				method: 'get',
-				url: `http://localhost:8000/all/blocks/${response.data.current_round + 1}/25/0`,
+				url: `http://localhost:8000/all/blocks/${resp.data.current_round + 1}/25/0`,
 			}).then(response => {
 				this.setState({
 					blocks: response.data, // Set blocks data
 					current_round: response.data[0].round, // Set current_round to highest round
 					pages: Math.ceil(response.data[0].round / 25), // Set pages to rounded up division
-					loading: false // Set loading to false
+					loading: false, // Set loading to false
+					reward_rate: resp.data.reward_rate,
+					avg_block_time: resp.data.avg_block_time
 				});
 			}).catch(error => {
 				console.log("Exception when retrieving last 25 blocks: " + error);
@@ -101,11 +104,16 @@ class Blocks extends React.Component {
 					/>
 					<Statscard
 						stat="Average Block Time"
-						value="98.201 Billion"
+						value={this.state.loading ? "Loading..." : (<span>{this.state.avg_block_time}s</span>)}
 					/>
 					<Statscard
 						stat="Reward Rate"
-						value="98.201 Billion"
+						value={this.state.loading ? "Loading..." : (
+							<div>
+								{this.state.reward_rate}
+								<AlgoIcon />
+							</div>
+						)}
 					/>
 				</div>
 				<div className="table">

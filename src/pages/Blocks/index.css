@@ -100,8 +100,8 @@
 }
 
 .blocks-table > div > .rt-thead > div > div:nth-child(3), .blocks-table > div > .rt-tbody > div > div > div:nth-child(3) {
-	min-width: 620px;
-	width: calc(100% - 420px);
+	min-width: 220px;
+	max-width: calc(100% - 420px);
 }
 
 .blocks-table > div > .rt-thead > div > div:nth-child(4), .blocks-table > div > .rt-tbody > div > div > div:nth-child(4) {
@@ -110,7 +110,12 @@
 }
 
 .blocks-table > div:nth-child(1) > div {
-	min-width: 1040px !important;
+	min-width: 640px !important;
+	width: 100% !important;
+}
+
+.blocks-table > div > .rt-tbody > div > div > div:nth-child(3) {
+	color: #337afe !important;
 }
 
 /* Pagination */

@@ -6,9 +6,8 @@ import { NavLink } from 'react-router-dom';
 import Breadcrumbs from '../../components/breadcrumbs';
 import Statscard from '../../components/statscard';
 import ReactTable from 'react-table-6';
+import AlgoIcon from '../../components/algoicon';
 import 'react-table-6/react-table.css';
-
-import algo from './algo.svg';
 
 class Transactions extends React.Component {
 	constructor() {
@@ -140,14 +139,6 @@ class Transactions extends React.Component {
 						</div>
 					</div>
 			</Layout>
-		);
-	}
-}
-
-class AlgoIcon extends React.Component {
-	render() {
-		return (
-			<img src={algo} alt="Algorand icon" className="algo-icon"/>
 		);
 	}
 }

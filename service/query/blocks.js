@@ -54,6 +54,7 @@ module.exports = function(app) {
 						"transactions": Object.keys(body.rows[i].doc.txns).length,
 						"proposer": body.rows[i].doc.proposer,
 						"timestamp": body.rows[i].doc.timestamp,
+						"reward": parseInt(body.rows[i].doc.reward) / 1000000,
 					});
 				}
 			}
