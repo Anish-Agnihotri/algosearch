@@ -9,13 +9,6 @@ ______________
 	TODO: Total Algo Supply
 	TODO: Total Unique Addresses
 
-Blocks Endpoint, list of:
-_________________________
-	- Round
-	- Num Transactions
-	- Proposer
-	- Time
-
 Transactions endpoint, list of:
 _______________________________
 	- Block
@@ -28,7 +21,8 @@ _______________________________
 TODO: ON access end points
 	- Tx ID (ID< Status, Block, Sender, Type, Receiver, Amount, Fee, Sender balance, Sender rewards, Receiver balance, Receiver rewards, First round, Last round, Created at)
 	- Address overview (Balance, Total Transactions received, total sent, Rewards, Status, Transactions list, First block seen)
-	- Block overview (Round, Block Hash, Previous Block Hash, Proposer, Transactions num (and list), Created At)
+
+Search POST exists endpoint
 
 # Sync
 ## Blocks sync

@@ -15,14 +15,15 @@
 }
 
 .block-table > div {
-	min-width: 1000px;
+	width: 100%;
+	display: inline-block;
 	height: auto;
-	background-color: #000;
-	overflow-x: scroll;
+	overflow: auto;
 }
 
 .block-table > div > table {
-	width: 100%;
+	min-width: 100%;
+	table-layout: fixed;
 }
 
 .block-table > div > table > thead > tr {
@@ -53,11 +54,24 @@
 	font-weight: 500;
 	min-width: 220px;
 	width: 220px;
-	background-color: #ccc;
+}
+
+.block-table > div > table > tbody > tr > td:last-child {
+	padding-right: 15px;
 }
 
 .block-table > div > table > tbody > tr > td {
 	border-bottom: 1px solid rgb(231, 234, 243);
+}
+
+.block-table > div > table > tbody > tr > td > a {
+	text-decoration: none;
+	color: #337afe;
+	transition: 100ms ease-in-out;
+}
+
+.block-table > div > table > tbody > tr > td > a:hover {
+	color: #0150e3;
 }
 
 .block-table > div > table > tbody > tr:last-child > td {
@@ -66,4 +80,8 @@
 
 .block-table:last-of-type {
 	margin-bottom: 50px;
+}
+
+.loader {
+	margin-left: -25px;
 }

@@ -1,9 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { NavLink } from 'react-router-dom';
 import './index.css';
+import Loader from 'react-loader-spinner';
 import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 class Block extends React.Component {
 	constructor() {
@@ -60,23 +63,23 @@ class Block extends React.Component {
 								</tr>
 								<tr>
 									<td>Proposer</td>
-									<td>{this.state.loading ? null : this.state.data.proposer}</td>
+									<td>{this.state.loading ? <Load/> : (<NavLink to={`/address/${this.state.data.proposer}`}>{this.state.data.proposer}</NavLink>)}</td>
 								</tr>
 								<tr>
 									<td>Block hash</td>
-									<td>{this.state.loading ? null : this.state.data.hash}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.hash}</td>
 								</tr>
 								<tr>
 									<td>Previous block hash</td>
-									<td>{this.state.loading ? null : this.state.data.previousBlockHash}</td>
+									<td>{this.state.loading ? <Load/> : (<NavLink to={`/block/${parseInt(this.state.blocknum) - 1}`}>{this.state.data.previousBlockHash}</NavLink>)}</td>
 								</tr>
 								<tr>
 									<td>Seed</td>
-									<td>{this.state.loading ? null : this.state.data.seed}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.seed}</td>
 								</tr>
 								<tr>
 									<td>Created at</td>
-									<td>{this.state.loading ? null : moment.unix(this.state.data.timestamp).format("LLLL")}</td>
+									<td>{this.state.loading ? <Load/> : moment.unix(this.state.data.timestamp).format("LLLL")}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -96,37 +99,50 @@ class Block extends React.Component {
 							<tbody>
 								<tr>
 									<td>Current protocol</td>
-									<td>{this.state.loading ? null : this.state.data.currentProtocol}</td>
+									<td>{this.state.loading ? <Load/> : (<a href={this.state.data.currentProtocol} target="_blank" rel="noopener noreferrer">{this.state.data.currentProtocol}</a>)}</td>
 								</tr>
 								<tr>
 									<td>Next protocol</td>
-									<td>{this.state.loading ? null : this.state.data.nextProtocol}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.nextProtocol}</td>
 								</tr>
 								<tr>
 									<td>Next protocol approvals</td>
-									<td>{this.state.loading ? null : this.state.data.nextProtocolApprovals}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.nextProtocolApprovals}</td>
 								</tr>
 								<tr>
 									<td>Next protocol vote before</td>
-									<td>{this.state.loading ? null : this.state.data.nextProtocolVoteBefore}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.nextProtocolVoteBefore}</td>
 								</tr>
 								<tr>
 									<td>Next protocol switch on</td>
-									<td>{this.state.loading ? null : this.state.data.nextProtocolSwitchOn}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.nextProtocolSwitchOn}</td>
 								</tr>
 								<tr>
 									<td>Upgrade proposal</td>
-									<td>{this.state.loading ? null : this.state.data.upgradePropose}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.upgradePropose}</td>
 								</tr>
 								<tr>
 									<td>Upgrade approved</td>
-									<td>{this.state.loading ? null : this.state.data.upgradeApprove}</td>
+									<td>{this.state.loading ? <Load/> : this.state.data.upgradeApprove}</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</Layout>
+		);
+	}
+}
+
+class Load extends React.Component {
+	render() {
+		return (
+			<Loader
+				type="ThreeDots"
+				color="#6984aa"
+				className="loader"
+				height={7}
+			/>
 		);
 	}
 }

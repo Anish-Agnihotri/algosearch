@@ -20,7 +20,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/address/:address" component={Address} />
           <Route path="/blocks" exact component={Blocks} />
-          <Route path="/block/:blocknum" component={Block} />
+          <Route path="/block/:blocknum" component={props => <Block {...props} key={Math.ceil(Math.random() * 10)}/>} />
           <Route path="/transactions" exact component={Transactions} />
           <Route path="/tx/:txid" component={Transaction} />
           <Route path="/analytics" exact component={Analytics} />
