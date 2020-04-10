@@ -3,25 +3,34 @@
 	____________
 	Blocks endpoint
 	____________
-	Return schema:
+	Various Return schemas
+
+	Sample all/blocks:
 	{ hash, previousBlockHash, seed, proposer, round, period, txnRoot, reward, rate, frac,
 	txns, timestamp, currentProtocol, nextProtocol, nextProtocolApprovals, nextProtocolSwitchOn, 
 	upgradePropose, upgradeApprove }
 */
+
 var constants = require('../global'); // Require global constants
 const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${constants.dbhost}`); // Connect nano to db
 
+// Export express routes
 module.exports = function(app) {
 
+	// --> Single block data retrieval
 	app.get('/block/:blocknumber', function(req, res) {
-		const round = parseInt(req.params.blocknumber);
+		const round = parseInt(req.params.blocknumber); // Get round number from request
+
+		// Query blocks database, skipping everything till round number, and limiting to 1 response
 		nano.db.use('blocks').list({include_docs: true, skip: round, limit: 1}).then(body => {
+			// Send doc entry
 			res.send(body.rows[0].doc);
 		}).catch(error => {
 			res.status(501);
 			console.log(`Exception when retrieving block number ${round}: ${error}`);
 		})
 	});
+
 	/*
 		Block information endpoint
 		:lastBlock = last block to pull from
@@ -29,9 +38,9 @@ module.exports = function(app) {
 		:full = if 0, return truncated data, else return full data
 	*/
     app.get('/all/blocks/:lastBlock/:limit/:full', function(req, res) {
-		var lastBlock = parseInt(req.params.lastBlock);
-		var limit = parseInt(req.params.limit);
-		const showFull = parseInt(req.params.full) === 0 ? false : true;
+		var lastBlock = parseInt(req.params.lastBlock); // lastBlock from query for pagination
+		var limit = parseInt(req.params.limit); // limit (max. 100)
+		const showFull = parseInt(req.params.full) === 0 ? false : true; // If 0, return truncated. If 1, return full.
 
 		// If limit > 100, reset to 100.
 		if (limit > 100) {
@@ -43,12 +52,16 @@ module.exports = function(app) {
 			limit = lastBlock;
 		}
 
+		// Query blocks database, skipping all till lastBlock - limit, and limiting to limit
 		nano.db.use('blocks').list({include_docs: true, skip: lastBlock - limit, limit: limit}).then(body => {
 			let blocks = [];
+
 			for (let i = body.rows.length - 1; i >= 0; i--) {
 				if (showFull) {
+					// If showFull = 1, send all data
 					blocks.push(body.rows[i]);
 				} else {
+					// If showFull = 0, send truncated data
 					blocks.push({
 						"round": body.rows[i].doc.round,
 						"transactions": Object.keys(body.rows[i].doc.txns).length,
@@ -58,11 +71,11 @@ module.exports = function(app) {
 					});
 				}
 			}
+
 			res.send(blocks);
 		}).catch(error => {
 			res.status(501);
 			console.log("Exception when listing all blocks: " + error);
 		})
     });
-
 }

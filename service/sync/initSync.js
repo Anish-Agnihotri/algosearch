@@ -1,3 +1,9 @@
+/*
+	initSync.js
+	____________
+	Provides scripts to test for and create blocks and transactions db.
+*/
+
 var constants = require('../global'); // Requiring global constants
 var nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${constants.dbhost}`); // Setting up connection to db
 
@@ -39,6 +45,7 @@ const initTransactionsDB = () => {
 	})
 }
 
+// Export functions
 module.exports = {
 	initBlocksDB: initBlocksDB,
 	initTransactionsDB: initTransactionsDB
