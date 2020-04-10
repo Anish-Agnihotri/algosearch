@@ -1,0 +1,32 @@
+.block-table > div > table > tbody > tr > td > div > div > div > textarea {
+	width: calc(100% - 10px);
+	display: inline-block;
+	border-radius: 3px;
+	margin-block-start: -7px;
+	background-color: #fefeff;
+	font-size: 12px;
+	padding: 5px;
+	border: 1px solid rgb(231, 234, 243);
+}
+
+.block-table > div > table > tbody > tr > td > div > div > div {
+	margin-top: 12px;
+	display: inline-block;
+	width: calc((100% - 60px) / 2);
+	background-color: #f8fafd;
+	border: 1px solid rgb(231, 234, 243);
+	border-radius: 3px;
+	padding: 0px 10px 0px 10px;
+	margin-bottom: 7px;
+}
+
+.block-table > div > table > tbody > tr > td > div > div > div:nth-child(1) {
+	margin-right: 10px;
+}
+
+.block-table > div > table > tbody > tr > td > div > div > div > span {
+	display: inline-block;
+	font-size: 14px;
+	line-height: 14px;
+	font-weight: 500;
+}

@@ -1,7 +1,27 @@
 var constants = require('../global'); // Require global constants
 const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${constants.dbhost}`); // Connect nano to db
+var axios = require('axios');
 
 module.exports = function(app) {
+	app.get('/transaction/:txid', function(req, res) {
+		const txid = req.params.txid;
+
+		axios({
+			method: 'get',
+			url: `${constants.algodurl}/v1/transaction/${txid}`, // Request transaction details endpoint
+			headers: {'x-api-key': constants.algodapi}
+		}).then(response => {
+			let result = response.data;
+			nano.db.use('blocks').list({include_docs: true, skip: result.round, limit: 1}).then(body => {
+				result.timestamp = body.rows[0].doc.timestamp;
+				res.send(result);
+			})
+		}).catch(error => {
+			res.status(501);
+			console.log("Exception when getting transaction details " + error);
+		})
+	});
+
 	app.get('/all/transactions/:lastTransaction/:limit/:full', function(req, res) {
 		var lastTransaction = parseInt(req.params.lastTransaction);
 		var limit = parseInt(req.params.limit);

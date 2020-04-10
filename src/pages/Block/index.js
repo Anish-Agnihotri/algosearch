@@ -3,13 +3,13 @@ import axios from 'axios';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
 import './index.css';
-import Loader from 'react-loader-spinner';
 import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import AlgoIcon from '../../components/algoicon';
+import Load from '../../components/tableloading';
+import {formatValue} from '../../constants';
 
 class Block extends React.Component {
 	constructor() {
@@ -22,11 +22,6 @@ class Block extends React.Component {
 			loading: true,
 		}
 	}
-
-	// Format algo denominations
-	formatAlgoDenom = num => {
-		return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-	};
 
 	getBlock = blockNum => {
 		axios({
@@ -50,11 +45,11 @@ class Block extends React.Component {
 		const columns = [
 			{Header: 'Round', accessor: 'round', Cell: props => <NavLink to={`/block/${props.value}`}>{props.value}</NavLink>}, 
 			{Header: 'TX ID', accessor: 'tx', Cell: props => <NavLink to={`/tx/${props.value}`}>{props.value}</NavLink>}, 
-			{Header: 'Type', accessor: 'type', Cell: props => <span className="type">{props.value}</span>},
+			{Header: 'Type', accessor: 'type', Cell: props => <span className="type noselect">{props.value}</span>},
 			{Header: 'From', accessor: 'from', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>}, 
 			{Header: 'To', accessor: 'payment.to', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
-			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{this.formatAlgoDenom(props.value)} <AlgoIcon /></span>},
-			{Header: 'Fee', accessor: 'fee', Cell: props => <span>{this.formatAlgoDenom(props.value)} <AlgoIcon /></span>}
+			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{formatValue(props.value)} <AlgoIcon /></span>},
+			{Header: 'Fee', accessor: 'fee', Cell: props => <span>{formatValue(props.value)} <AlgoIcon /></span>}
 		];
 
 		return (
@@ -164,19 +159,6 @@ class Block extends React.Component {
 					</div>
 				</div>
 			</Layout>
-		);
-	}
-}
-
-class Load extends React.Component {
-	render() {
-		return (
-			<Loader
-				type="ThreeDots"
-				color="#6984aa"
-				className="loader"
-				height={7}
-			/>
 		);
 	}
 }

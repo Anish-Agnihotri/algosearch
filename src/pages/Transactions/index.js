@@ -8,6 +8,7 @@ import Statscard from '../../components/statscard';
 import ReactTable from 'react-table-6';
 import AlgoIcon from '../../components/algoicon';
 import 'react-table-6/react-table.css';
+import {formatValue} from '../../constants';
 
 class Transactions extends React.Component {
 	constructor() {
@@ -21,11 +22,6 @@ class Transactions extends React.Component {
 			transactions: [] // Transactions data
 		};
 	}
-
-	// Format algo denominations
-	formatAlgoDenom = num => {
-		return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-	};
 	
 	// Update page size
 	updatePageSize = (pageIndex, pageSize) => {
@@ -87,11 +83,11 @@ class Transactions extends React.Component {
 		const columns = [
 			{Header: 'Round', accessor: 'round', Cell: props => <NavLink to={`/block/${props.value}`}>{props.value}</NavLink>}, 
 			{Header: 'TX ID', accessor: 'tx', Cell: props => <NavLink to={`/tx/${props.value}`}>{props.value}</NavLink>}, 
-			{Header: 'Type', accessor: 'type', Cell: props => <span class="type">{props.value}</span>},
+			{Header: 'Type', accessor: 'type', Cell: props => <span className="type noselect">{props.value}</span>},
 			{Header: 'From', accessor: 'from', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>}, 
 			{Header: 'To', accessor: 'to', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
-			{Header: 'Amount', accessor: 'amount', Cell: props => <span>{this.formatAlgoDenom(props.value)} <AlgoIcon /></span>},
-			{Header: 'Fee', accessor: 'fee', Cell: props => <span>{this.formatAlgoDenom(props.value)} <AlgoIcon /></span>}
+			{Header: 'Amount', accessor: 'amount', Cell: props => <span>{formatValue(props.value)} <AlgoIcon /></span>},
+			{Header: 'Fee', accessor: 'fee', Cell: props => <span>{formatValue(props.value)} <AlgoIcon /></span>}
 		];
 
 		return (
