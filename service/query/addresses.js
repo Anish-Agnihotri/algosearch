@@ -23,9 +23,7 @@ module.exports = function(app) {
 			headers: {'x-api-key': constants.algodapi}
 		}).then(response => {
 			let result = response.data; // Set data to result
-			
-			// Query for all confirmed transactions made by account
-			// FIXME: make retrieval all transactions when using personal node
+
 			axios({
 				method: 'get',
 				url: `https://mainnet-algorand.api.purestake.io/ps1/v1/account/${address}/transactions?max=25`, // ${constants.algodurl} Temporary

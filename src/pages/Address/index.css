@@ -51,3 +51,11 @@
 	min-width: 173px !important;
 	max-width: 173px !important;
 }
+
+.nocolor {
+	color: #000 !important;
+}
+
+.type-width-in {
+	padding: 2px 13px !important;
+}

@@ -38,7 +38,6 @@ async function updateBlocks() {
 	// Until syncedBlockNumber !== currentRound, retrieve all blocks
 	for (syncedBlockNumber; syncedBlockNumber < currentRound; syncedBlockNumber++) {
 		await addBlock(syncedBlockNumber, currentRound);
-		await sleep(500); // TODO: Remove when live in production
 	}
 
 	// Once syncedBlockNumber === currentRound, run updateBlocks() once every second.
