@@ -35,10 +35,13 @@ async function updateBlocks() {
 		currentRound = await getCurrentRound(); // Get new latest round every half second
 	}, 500);
 
-	// Until syncedBlockNumber !== currentRound, retrieve all blocks
-	for (syncedBlockNumber; syncedBlockNumber < currentRound; syncedBlockNumber++) {
+	do {
+		await bulkAddBlocks(syncedBlockNumber, currentRound);
+	} while (currentRound - 500 > syncedBlockNumber);
+
+	do {
 		await addBlock(syncedBlockNumber, currentRound);
-	}
+	} while (syncedBlockNumber < currentRound);
 
 	// Once syncedBlockNumber === currentRound, run updateBlocks() once every second.
 	setInterval(() => {
@@ -65,6 +68,32 @@ async function getCurrentRound() {
 	return round;
 }
 
+async function bulkAddBlocks(blockNum, currentNum) {
+	let blocksArray = [];
+	let transactionsArray = [];
+
+	for (let i = 0; i < 250; i++) {
+		axios({
+			method: 'get',
+			url: `${constants.algodurl}/block/${blockNum}`, // Get block information from algod
+			headers: {'x-api-key': constants.algodapi}
+		}).then(response => {
+			blocksArray.push(response.data); // Insert block data to blocks database as doc
+			if (Object.keys(response.data.txns).length > 0) {
+				let alltransactions = response.data.txns.transactions;
+				for (let i = 0; i < alltransactions.length; i++) {
+					transactionsArray.push(alltransactions[i]);
+				}
+			}
+		}).catch(error => {
+			console.log("Exception when bulk adding blocks: " + error);
+		})
+	}
+
+	console.log(`Bulk added up to: ${blockNum + 250} of ${currentNum}`); // Log block addition
+	blocks.bulk({docs:blocksArray});
+	transactions.bulk({docs:transactionsArray});
+}
 /*
 	Add block data to CouchDB
 */
