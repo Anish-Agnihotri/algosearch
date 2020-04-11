@@ -5,12 +5,9 @@
 */
 
 var constants = require('../global'); // Require global constants
-var dbscripts = require('./initSync'); // Require db init scripts
 const axios = require('axios'); // Require axios for requests
 const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${constants.dbhost}`); // Connect nano to db
 
-dbscripts.initBlocksDB(); // Check if blocks db exists, else, create it.
-dbscripts.initTransactionsDB(); // Check if transactions db exists, else, create it.
 let blocks = nano.db.use('blocks'); // Connect to blocks db
 let transactions = nano.db.use('transactions'); // Connect to transactions db
 
@@ -22,14 +19,11 @@ async function updateBlocks() {
 	// syncedBlockNumber = head round in db
 	// currentRound = head round from algod
 	let syncedBlockNumber, currentRound;
-	
-	nano.db.get('blocks').then((body) => {
-		syncedBlockNumber = body.doc_count; // Get current db synced block
-	}).catch(error => {
-		console.log('Exception when retrieving synced block number: ' + error);
-	})
 
+	syncedBlockNumber = await getSyncedRound(); // Get latest synced round from db
 	currentRound = await getCurrentRound(); // Get latest round
+
+	console.log(`Starting to sync from block ${syncedBlockNumber} to ${currentRound}`);
 
 	setInterval(async() => {
 		currentRound = await getCurrentRound(); // Get new latest round every half second
@@ -63,6 +57,21 @@ async function updateBlocks() {
 	setInterval(() => {
 		updateBlocks(); // Self update call
 	}, 1000);
+}
+
+/*
+	Get current synced round from blocks db
+*/
+async function getSyncedRound() {
+	let round;
+
+	await nano.db.get('blocks').then((body) => {
+		round = body.doc_count; // Get current db synced block
+	}).catch(error => {
+		console.log('Exception when retrieving synced block number: ' + error);
+	})
+
+	return round;
 }
 
 /*
@@ -108,6 +117,8 @@ async function bulkAddBlocks(blockNum, currentNum) {
 		}).catch(error => {
 			console.log("Exception when bulk adding blocks: " + error);
 		});
+
+		increment++; // Increment for async loop functionality
 	}
 
 	blocks.bulk({docs:blocksArray}); // Bulk add to blocks database
