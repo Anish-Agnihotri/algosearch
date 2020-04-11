@@ -1,0 +1,53 @@
+.addresses-table {
+	margin-top: 0px !important;
+}
+
+.addresses-table > div > div > div > .rt-tbody > div:last-child {
+	border-bottom: none !important;
+}
+
+.addresses-table > div > div > div > .rt-thead > div > div:first-child > div:first-child, .addresses-table > div > div > div > .rt-tbody > div > div > div:nth-child(1) {
+	color: #7f96ae !important;
+}
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(1), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(1) {
+	min-width: 50px !important;
+	max-width: 50px !important;
+} 
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(2), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(2) {
+	min-width: 90px !important;
+	max-width: 90px !important;
+} 
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(3), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(3) {
+	min-width: 102px !important;
+	max-width: calc(100% - 1020px) !important;
+} 
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(4), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(4) {
+	min-width: 200px !important;
+	max-width: 240px !important;
+	padding-left: 40px;
+} 
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(5), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(5) {
+	min-width: 65px !important;
+	max-width: 65px !important;
+}
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(6), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(6) {
+	min-width: 160px !important;
+	max-width: 200px !important;
+}
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(7), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(7) {
+	min-width: 200px !important;
+	max-width: 200px !important;
+	padding-left: 40px;
+}
+
+.addresses-table-sizing > div > .rt-thead > div > div:nth-child(8), .addresses-table-sizing > div > .rt-tbody > div > div > div:nth-child(8) {
+	min-width: 173px !important;
+	max-width: 173px !important;
+}

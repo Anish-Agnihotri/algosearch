@@ -1,10 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import './index.css';
 import Layout from '../../components/layout';
 import {formatValue} from '../../constants';
 import Load from '../../components/tableloading';
 import Statscard from '../../components/statscard';
 import AlgoIcon from '../../components/algoicon';
+import {NavLink} from 'react-router-dom';
+import ReactTable from 'react-table-6';
+import 'react-table-6/react-table.css';
 
 class Address extends React.Component {
 	constructor() {
@@ -37,6 +41,17 @@ class Address extends React.Component {
 	}
 
 	render() {
+		const columns = [
+			{Header: '#', accessor: 'round', Cell: props => <span className="rownumber">{props.index + 1}</span>},
+			{Header: 'Round', accessor: 'round', Cell: props => <NavLink to={`/block/${props.value}`}>{props.value}</NavLink>}, 
+			{Header: 'TX ID', accessor: 'tx', Cell: props => <NavLink to={`/tx/${props.value}`}>{props.value}</NavLink>}, 
+			{Header: 'From', accessor: 'from', Cell: props => this.state.address === props.value ? <span>{props.value}</span> : <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>}, 
+			{Header: 'Type', accessor: 'type', Cell: props => <span className="type noselect">{props.value}</span>},
+			{Header: 'To', accessor: 'payment.to', Cell: props => this.state.address === props.value ? <span>{props.value}</span> : <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
+			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{formatValue(props.value / 1000000)} <AlgoIcon /></span>},
+			{Header: 'Time', accessor: 'round', Cell: props=> <span>some long stamp</span>}
+		];
+
 		return (
 			<Layout data={{
 				"address": this.state.address,
@@ -75,6 +90,20 @@ class Address extends React.Component {
 							</div>
 						)}
 					/>
+				</div>
+				<div className="block-table addresses-table">
+					<span>Latest 25 transactions</span>
+					<div>
+						<ReactTable
+							data={this.state.data.confirmed_transactions}
+							columns={columns}
+							loading={this.state.loading}
+							defaultPageSize={25}
+							showPagination={false}
+							sortable={false}
+							className="transactions-table addresses-table-sizing"
+						/>
+					</div>
 				</div>
 			</Layout>
 		);

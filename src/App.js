@@ -18,7 +18,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/address/:address" component={Address} />
+          <Route path="/address/:address" component={props => <Address {...props} key={Math.ceil(Math.random() * 10)}/>} />
           <Route path="/blocks" exact component={Blocks} />
           <Route path="/block/:blocknum" component={props => <Block {...props} key={Math.ceil(Math.random() * 10)}/>} />
           <Route path="/transactions" exact component={Transactions} />

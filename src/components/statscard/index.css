@@ -15,9 +15,12 @@
 	box-shadow: 0 0 35px rgba(127,150,174,.125);
 }
 
+.address-cards {
+	transform: translateY(-30px);
+}
+
 .address-cards > div {
 	width: calc(23.625% - 17px);
-	transform: translateY(-30px);
 }
 
 .statscard > h2 {
@@ -103,12 +106,21 @@
 	.address-cards > div {
 		width: 96% !important;
 	}
+	.address-cards > div:nth-child(3) {
+		margin-bottom: 15px !important;
+	}
 }
 
 @media screen and (max-width: 850px) {
 	.statscard {
 		width: 96%;
 		margin-bottom: 15px;
+	}
+	.cardcontainer > div:nth-child(3) {
+		margin-bottom: 0px;
+	}
+	.address-cards > div:nth-child(3), .address-cards > div:nth-child(4) {
+		margin-bottom: 0px;
 	}
 	.cardcontainer {
 		flex-direction: column;
@@ -121,6 +133,8 @@
 @media screen and (max-width: 1000px) {
 	.address-cards > div {
 		width: calc(47.25% - 17px);
+	}
+	.address-cards > div:nth-child(1), .address-cards > div:nth-child(2) {
 		margin-bottom: 15px;
 	}
 	.address-cards {
