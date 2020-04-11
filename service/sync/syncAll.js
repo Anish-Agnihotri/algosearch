@@ -10,6 +10,7 @@ const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${c
 
 let blocks = nano.db.use('blocks'); // Connect to blocks db
 let transactions = nano.db.use('transactions'); // Connect to transactions db
+let addresses = nano.db.use('addresses');
 
 /*
 	Update blocks in database based on
@@ -99,6 +100,7 @@ async function getCurrentRound() {
 async function bulkAddBlocks(blockNum, currentNum) {
 	let blocksArray = []; // to contain 250 blocks
 	let transactionsArray = []; // to contain any transactions in those 250 blocks
+	let addressesArray = [];
 	let increment = 0; // for async loop functionality
 	
 	while (increment < 250) {
@@ -108,10 +110,18 @@ async function bulkAddBlocks(blockNum, currentNum) {
 			headers: {'X-Algo-API-Token': constants.algodapi}
 		}).then(response => {
 			blocksArray.push(response.data); // Push block to array
+
+			let timestamp = response.data.timestamp; // Collect timestamp from block
+
 			if (Object.keys(response.data.txns).length > 0) {
-				let alltransactions = response.data.txns.transactions;
+				let alltransactions = response.data.txns.transactions; // Append timestamp from block to transaction
+
 				for (let i = 0; i < alltransactions.length; i++) {
+					alltransactions[i].timestamp = timestamp;
 					transactionsArray.push(alltransactions[i]); // Push transaction to transactionsArray
+
+					// Add transaction to sending and receiving account
+					addressesArray.push({_id: alltransactions[i].from, ...alltransactions[i]}, {_id: alltransactions[i].to, ...alltransactions[i]});
 				}
 			}
 		}).catch(error => {
@@ -123,6 +133,7 @@ async function bulkAddBlocks(blockNum, currentNum) {
 
 	blocks.bulk({docs:blocksArray}); // Bulk add to blocks database
 	transactions.bulk({docs:transactionsArray}); // Bulk add to transactions database
+	addresses.bulk({docs:addressesArray}); // Bulk add to addresses database
 	console.log(`Bulk added: ${blockNum + 250} of ${currentNum}`);
 }
 

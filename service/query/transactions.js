@@ -24,18 +24,36 @@ module.exports = function(app) {
 		}).then(response => {
 			let result = response.data; // Store response in result
 
-			// Find block number in result, query for block number in blocks db, and return timestamp
-			// Workaround to get time transaction occured (not include in API functionality)
-			nano.db.use('blocks').list({include_docs: true, skip: result.round, limit: 1}).then(body => {
-				result.timestamp = body.rows[0].doc.timestamp; // Add timestamp to result JSON
+			axios({
+				method: 'get',
+				url: `${constants.algodurl}/block/${result.round}`,
+				headers: {'X-Algo-API-Token': constants.algodapi}
+			}).then(resp => {
+				result.timestamp = resp.data.timestamp; // Add timestamp to result JSON
 				res.send(result);
 			}).catch(error => {
 				res.status(501);
-				console.log("Exception when querying blocks database for timestamp: " + error);
+				console.log("Exception when querying blocks endpoint for timestamp: " + error);
 			})
 		}).catch(error => {
 			res.status(501);
 			console.log("Exception when getting transaction details " + error);
+		})
+	});
+
+	// --> Return all transaction data for a single address
+	app.get('/all/addresstx/:address', function(req, res) {
+		var address = req.params.address; // Get address from request
+
+		axios({
+			method: 'get',
+			url: `${constants.algodurl}/account/${address}/transactions?max=100000000`, // Set arbitrary unlimited max (0 doesn't work)
+			headers: {'X-Algo-API-Token': constants.algodapi}
+		}).then(response => {
+			res.send(response.data.transactions); // Return transaction data as response
+		}).catch(error => {
+			res.status(501);
+			console.log("Exception when retrieving all transactions for an address: " + error);
 		})
 	});
 

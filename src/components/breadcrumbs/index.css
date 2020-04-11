@@ -8,6 +8,21 @@
 	display: inline-block;
 }
 
+.breadcrumbs > div > span {
+	background-color: #f8fafd;
+	font-weight: 500;
+	border-radius: 5px;
+	font-size: 13px;
+	padding: 2px 5px;
+	color: #7f96ae;
+	display: inline-block;
+	margin-block-end: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(95vw - 10px);
+}
+
 .breadcrumbs > div:last-child {
 	float: right;
 	padding-top: 5px;
@@ -39,6 +54,24 @@
 	font-weight: 500;
 }
 
+.breadcrumbs-address-tx > div > h1 {
+	margin-block-end: 2px;
+}
+
+@media screen and (max-width: 1000px) {
+	.breadcrumbs-address-tx {
+		padding-bottom: 28px;
+	}
+	.breadcrumbs-address-tx > div {
+		width: 100%;
+		margin-bottom: 0px;
+		padding-top: 0px !important;
+	}
+	.breadcrumbs-address-tx > div:last-child {
+		margin-top: -17px;
+	}
+}
+
 @media screen and (max-width: 600px) {
 	.breadcrumbs {
 		padding-bottom: 28px;
@@ -50,5 +83,8 @@
 	}
 	.breadcrumbs > div:last-child {
 		margin-top: -20px;
+	}
+	.breadcrumbs-address-tx > div:last-child {
+		margin-top: -17px;
 	}
 }

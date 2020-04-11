@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Page imports
 import Home from './pages/Home';
 import Address from './pages/Address';
+import AddressTransaction from './pages/AddressTransaction';
 import Block from './pages/Block';
 import Blocks from './pages/Blocks';
 import Transaction from './pages/Transaction';
@@ -19,6 +20,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/address/:address" component={props => <Address {...props} key={Math.ceil(Math.random() * 10)}/>} />
+          <Route path="/addresstx/:address" component={AddressTransaction} />
           <Route path="/blocks" exact component={Blocks} />
           <Route path="/block/:blocknum" component={props => <Block {...props} key={Math.ceil(Math.random() * 10)}/>} />
           <Route path="/transactions" exact component={Transactions} />

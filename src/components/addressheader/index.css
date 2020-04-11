@@ -73,6 +73,14 @@
 	font-weight: 400;
 }
 
+@media screen and (max-width: 600px) {
+	.address-header {
+		padding-left: 5px;
+	}
+	.address-header > div {
+		width: calc(95vw - 10px);
+	}
+}
 @media screen and (max-width: 1000px) {
 	.address-header {
 		padding-bottom: 20px;

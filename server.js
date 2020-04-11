@@ -24,6 +24,7 @@ require('./service/query/blocks')(app);
 
 // --> /transaction/:txid
 // --> /all/transactions/:lastTransaction/:limit/:full (paginated)
+// --> /all/addresstx/:address
 require('./service/query/transactions')(app);
 
 // --> /address/:address

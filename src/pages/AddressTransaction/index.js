@@ -1,45 +1,41 @@
 import React from 'react';
 import axios from 'axios';
-import './index.css';
 import Layout from '../../components/layout';
-import {formatValue, siteName} from '../../constants';
-import Load from '../../components/tableloading';
-import Statscard from '../../components/statscard';
-import AlgoIcon from '../../components/algoicon';
+import Breadcrumbs from '../../components/breadcrumbs';
 import {NavLink} from 'react-router-dom';
 import ReactTable from 'react-table-6';
+import AlgoIcon from '../../components/algoicon';
 import 'react-table-6/react-table.css';
+import {formatValue, siteName} from '../../constants';
 
-class Address extends React.Component {
+class AddressTransaction extends React.Component {
 	constructor() {
 		super();
 
 		this.state = {
-			address: 0,
-			data: [],
-			loading: true
-		}
+			loading: true,
+			data: []
+		};
 	}
 
-	getAddressData = address => {
+	getAllTransactions = address => {
 		axios({
 			method: 'get',
-			url: `${siteName}/address/${address}`
+			url: `${siteName}/all/addresstx/${address}`
 		}).then(response => {
 			this.setState({data: response.data, loading: false});
-		}).catch(error => {
-			console.log("Exception when querying for address information: " + error);
-		});
-	};
+		})
+	}
 
 	componentDidMount() {
 		const { address } = this.props.match.params;
 		this.setState({address: address});
-		document.title=`AlgoSearch | Address ${address}`;
-		this.getAddressData(address);
+		document.title=`AlgoSearch | Transactions for ${address}`;
+		this.getAllTransactions(address);
 	}
 
 	render() {
+		// Table columns
 		const columns = [
 			{Header: '#', accessor: 'round', Cell: props => <span className="rownumber">{props.index + 1}</span>},
 			{Header: 'Round', accessor: 'round', Cell: props => <NavLink to={`/block/${props.value}`}>{props.value}</NavLink>}, 
@@ -52,53 +48,23 @@ class Address extends React.Component {
 		];
 
 		return (
-			<Layout data={{
-				"address": this.state.address,
-				"balance": formatValue(this.state.data.amount / 1000000)
-			}}
-			addresspage>
-				<div className="cardcontainer address-cards">
-					<Statscard
-						stat="Total transactions"
-						value={this.state.loading ? <Load /> : 0}
-					/>
-					<Statscard
-						stat="Rewards"
-						value={this.state.loading ? <Load /> : (
-							<div>
-								{formatValue(this.state.data.rewards / 1000000)}
-								<AlgoIcon />
-							</div>
-						)}
-					/>
-					<Statscard
-						stat="Pending rewards"
-						value={this.state.loading ? <Load /> : (
-							<div>
-								{formatValue(this.state.data.pendingrewards / 1000000)}
-								<AlgoIcon />
-							</div>
-						)}
-					/>
-					<Statscard
-						stat="Status"
-						value={this.state.loading ? <Load /> : (
-							<div>
-								<div className={`status-light ${this.state.data.status === "Offline" ? "status-offline" : "status-online"}`}></div>
-								<span>{this.state.data.status}</span>
-							</div>
-						)}
-					/>
-				</div>
+			<Layout>
+				<Breadcrumbs
+					name={`Transactions List`}
+					address={this.state.address}
+					parentLink={`/address/${this.state.address}`}
+					parentLinkName="Address Details"
+					currentLinkName={`Transactions List`}
+				/>
 				<div className="block-table addresses-table">
-					<span>Latest {this.state.loading ? 0 : this.state.data.confirmed_transactions.length} transactions {this.state.loading !== true && this.state.data.confirmed_transactions.length > 24 ? <NavLink to={`/addresstx/${this.state.address}`} className="viewmore">View more</NavLink>: null }</span>
+					<span>{this.state.data.length && this.state.data.length > 0 ? `Showing all ${this.state.data.length} transaction` : `Loading transactions...`}</span>
 					<div>
 						<ReactTable
-							data={this.state.data.confirmed_transactions}
+							data={this.state.data}
 							columns={columns}
 							loading={this.state.loading}
 							defaultPageSize={25}
-							showPagination={false}
+							pageSizeOptions={[25, 50, 100]}
 							sortable={false}
 							className="transactions-table addresses-table-sizing"
 						/>
@@ -109,4 +75,4 @@ class Address extends React.Component {
 	}
 }
 
-export default Address;
+export default AddressTransaction;
