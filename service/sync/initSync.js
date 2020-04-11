@@ -45,6 +45,9 @@ const initTransactionsDB = () => {
 	})
 }
 
+initBlocksDB();
+initTransactionsDB();
+
 // Export functions
 module.exports = {
 	initBlocksDB: initBlocksDB,
