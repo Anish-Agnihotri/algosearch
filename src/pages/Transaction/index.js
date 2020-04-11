@@ -7,7 +7,7 @@ import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
 import Load from '../../components/tableloading';
 import AlgoIcon from '../../components/algoicon';
-import {formatValue} from '../../constants';
+import {formatValue, siteName} from '../../constants';
 
 class Transaction extends React.Component {
 	constructor() {
@@ -23,7 +23,7 @@ class Transaction extends React.Component {
 	getTransaction = txid => {
 		axios({
 			method: 'get',
-			url: `http://localhost:8000/transaction/${txid}`
+			url: `${siteName}/transaction/${txid}`
 		}).then(response => {
 			this.setState({transaction: response.data, loading: false});
 		}).catch(error => {

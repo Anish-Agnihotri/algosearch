@@ -35,9 +35,28 @@ async function updateBlocks() {
 		currentRound = await getCurrentRound(); // Get new latest round every half second
 	}, 500);
 
-	// Until syncedBlockNumber !== currentRound, retrieve all blocks
-	for (syncedBlockNumber; syncedBlockNumber < currentRound; syncedBlockNumber++) {
-		await addBlock(syncedBlockNumber, currentRound);
+	// If there are more than 250 blocks to sync
+	if (syncedBlockNumber + 250 < currentRound) {
+		do {
+			// FIXME: Fix the variable positioning; works for now
+			// eslint-disable-next-line no-loop-func
+			await bulkAddBlocks(syncedBlockNumber, currentRound).then(() => {
+				syncedBlockNumber += 250; // Add 250 blocks, and increment the synced number
+			}).catch(error => {
+				console.log("Error when incrementing syncedBlockNumber during bulk block addition: " + error);
+			});
+		} while (currentRound - 250 > syncedBlockNumber);
+	} else {
+		// If there are less than 250 blocks to sync
+		do {
+			// FIXME: Fix the variable positioning; works for now
+			// eslint-disable-next-line no-loop-func
+			await addBlock(syncedBlockNumber, currentRound).then(() => {
+				syncedBlockNumber++; // Add blocks one-by-one, and increment the synced number
+			}).catch(error => {
+				console.log("Error when incrementing syncedBlockNumber during single block addition: " + error);
+			});
+		} while (syncedBlockNumber < currentRound && syncedBlockNumber + 250 > currentRound);
 	}
 
 	// Once syncedBlockNumber === currentRound, run updateBlocks() once every second.
@@ -55,7 +74,7 @@ async function getCurrentRound() {
 	await axios({
 		method: 'get',
 		url: `${constants.algodurl}/ledger/supply`, // Request /ledger/supply endpoint
-		headers: {'x-api-key': constants.algodapi}
+		headers: {'X-Algo-API-Token': constants.algodapi}
 	}).then(response => {
 		round = response.data.round; // Collect round
 	}).catch(error => {
@@ -66,13 +85,44 @@ async function getCurrentRound() {
 }
 
 /*
+	Add multiple blocks to CouchDB in bulk
+*/
+async function bulkAddBlocks(blockNum, currentNum) {
+	let blocksArray = []; // to contain 250 blocks
+	let transactionsArray = []; // to contain any transactions in those 250 blocks
+	let increment = 0; // for async loop functionality
+	
+	while (increment < 250) {
+		await axios({
+			method: 'get',
+			url: `${constants.algodurl}/block/${blockNum + increment}`, // Retrieve each block in succession
+			headers: {'X-Algo-API-Token': constants.algodapi}
+		}).then(response => {
+			blocksArray.push(response.data); // Push block to array
+			if (Object.keys(response.data.txns).length > 0) {
+				let alltransactions = response.data.txns.transactions;
+				for (let i = 0; i < alltransactions.length; i++) {
+					transactionsArray.push(alltransactions[i]); // Push transaction to transactionsArray
+				}
+			}
+		}).catch(error => {
+			console.log("Exception when bulk adding blocks: " + error);
+		});
+	}
+
+	blocks.bulk({docs:blocksArray}); // Bulk add to blocks database
+	transactions.bulk({docs:transactionsArray}); // Bulk add to transactions database
+	console.log(`Bulk added: ${blockNum + 250} of ${currentNum}`);
+}
+
+/*
 	Add block data to CouchDB
 */
 async function addBlock(blockNum, currentNum) {
 	await axios({
 		method: 'get',
 		url: `${constants.algodurl}/block/${blockNum}`, // Get block information from algod
-		headers: {'x-api-key': constants.algodapi}
+		headers: {'X-Algo-API-Token': constants.algodapi}
 	}).then(async response => {
 		blocks.insert(response.data); // Insert block data to blocks database as doc
 		if (Object.keys(response.data.txns).length > 0) {
@@ -85,14 +135,6 @@ async function addBlock(blockNum, currentNum) {
 	}).catch(error => {
 		console.log("Exception when adding block to blocks database: " + error);
 	})
-}
-
-/* 
-	Sleep function to be used only when accessing a rate-limited Algod API.
-	Returns a timed promise preventing thread execution.
-*/
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // Run updateBlocks script

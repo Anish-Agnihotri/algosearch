@@ -45,6 +45,10 @@ const initTransactionsDB = () => {
 	})
 }
 
+// Executing this file will also run the functions:
+initBlocksDB();
+initTransactionsDB();
+
 // Export functions
 module.exports = {
 	initBlocksDB: initBlocksDB,

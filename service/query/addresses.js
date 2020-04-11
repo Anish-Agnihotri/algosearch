@@ -19,15 +19,15 @@ module.exports = function(app) {
 		// Request basic account information
 		axios({
 			method: 'get',
-			url: `https://mainnet-algorand.api.purestake.io/ps1/v1/account/${address}`, // ${constants.algodurl} Request transaction details endpoint
-			headers: {'x-api-key': constants.algodapi}
+			url: `${constants.algodurl}/account/${address}`, // Request transaction details endpoint
+			headers: {'X-Algo-API-Token': constants.algodapi}
 		}).then(response => {
 			let result = response.data; // Set data to result
 
 			axios({
 				method: 'get',
-				url: `https://mainnet-algorand.api.purestake.io/ps1/v1/account/${address}/transactions?max=25`, // ${constants.algodurl} Temporary
-				headers: {'x-api-key': constants.algodapi}
+				url: `${constants.algodurl}/account/${address}/transactions?max=25`,
+				headers: {'X-Algo-API-Token': constants.algodapi}
 			}).then(resp => {
 				// Add transactions to result
 				result.confirmed_transactions = resp.data.transactions;

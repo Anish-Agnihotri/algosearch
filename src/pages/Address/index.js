@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import './index.css';
 import Layout from '../../components/layout';
-import {formatValue} from '../../constants';
+import {formatValue, siteName} from '../../constants';
 import Load from '../../components/tableloading';
 import Statscard from '../../components/statscard';
 import AlgoIcon from '../../components/algoicon';
@@ -24,7 +24,7 @@ class Address extends React.Component {
 	getAddressData = address => {
 		axios({
 			method: 'get',
-			url: `http://localhost:8000/address/${address}`
+			url: `${siteName}/address/${address}`
 		}).then(response => {
 			console.log(response.data);
 			this.setState({data: response.data, loading: false});

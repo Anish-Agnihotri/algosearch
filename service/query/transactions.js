@@ -20,7 +20,7 @@ module.exports = function(app) {
 		axios({
 			method: 'get',
 			url: `${constants.algodurl}/transaction/${txid}`, // Request transaction details endpoint
-			headers: {'x-api-key': constants.algodapi}
+			headers: {'X-Algo-API-Token': constants.algodapi}
 		}).then(response => {
 			let result = response.data; // Store response in result
 
