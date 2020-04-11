@@ -14,6 +14,9 @@ require('./service/query/blocks')(app);
 // --> /all/transactions/:lastTransaction/:limit/:full (paginated)
 require('./service/query/transactions')(app);
 
+// --> /address/:address
+require('./service/query/addresses')(app);
+
 // --> /stats
 require('./service/stats/stats')(app);
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.css';
 
+import AddressHeader from '../addressheader';
 import HeaderSearch from '../headersearch';
 import MainHeader from '../mainheader';
 import Footer from '../footer';
@@ -19,6 +20,9 @@ class Layout extends React.Component {
 						<MainHeader />
 					</div>
 				</div>
+				{this.props.addresspage ? (
+					<AddressHeader data={this.props.data} />
+				) : null}
 				<div className="content">
 					<div className="sizer">
 						{this.props.children}

@@ -9,6 +9,7 @@ import Statscard from '../../components/statscard';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import AlgoIcon from '../../components/algoicon';
+import Load from '../../components/tableloading';
 
 class Blocks extends React.Component {
 	constructor() {
@@ -100,15 +101,15 @@ class Blocks extends React.Component {
 				<div className="cardcontainer">
 					<Statscard
 						stat="Latest round"
-						value={this.state.loading ? "Loading..." : this.state.current_round}
+						value={this.state.loading ? <Load /> : this.state.current_round}
 					/>
 					<Statscard
 						stat="Average Block Time"
-						value={this.state.loading ? "Loading..." : (<span>{this.state.avg_block_time}s</span>)}
+						value={this.state.loading ? <Load /> : (<span>{this.state.avg_block_time}s</span>)}
 					/>
 					<Statscard
 						stat="Reward Rate"
-						value={this.state.loading ? "Loading..." : (
+						value={this.state.loading ? <Load /> : (
 							<div>
 								{this.state.reward_rate}
 								<AlgoIcon />
