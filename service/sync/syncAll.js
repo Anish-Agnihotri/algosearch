@@ -35,13 +35,15 @@ async function updateBlocks() {
 		currentRound = await getCurrentRound(); // Get new latest round every half second
 	}, 500);
 
-	do {
-		await bulkAddBlocks(syncedBlockNumber, currentRound);
-	} while (currentRound - 500 > syncedBlockNumber);
-
-	do {
-		await addBlock(syncedBlockNumber, currentRound);
-	} while (syncedBlockNumber < currentRound);
+	if (currentRound - 500 > syncedBlockNumber) {
+		do {
+			await bulkAddBlocks(syncedBlockNumber, currentRound);
+		} while (currentRound - 500 > syncedBlockNumber);
+	} else {
+		do {
+			await addBlock(syncedBlockNumber, currentRound);
+		} while (syncedBlockNumber < currentRound);
+	}
 
 	// Once syncedBlockNumber === currentRound, run updateBlocks() once every second.
 	setInterval(() => {
@@ -58,7 +60,7 @@ async function getCurrentRound() {
 	await axios({
 		method: 'get',
 		url: `${constants.algodurl}/ledger/supply`, // Request /ledger/supply endpoint
-		headers: {'x-api-key': constants.algodapi}
+		headers: {'X-Algo-API-Token': constants.algodapi}
 	}).then(response => {
 		round = response.data.round; // Collect round
 	}).catch(error => {
@@ -71,12 +73,13 @@ async function getCurrentRound() {
 async function bulkAddBlocks(blockNum, currentNum) {
 	let blocksArray = [];
 	let transactionsArray = [];
+	let a = 0;
 
-	for (let i = 0; i < 250; i++) {
+	while (a < 250) {
 		axios({
 			method: 'get',
-			url: `${constants.algodurl}/block/${blockNum}`, // Get block information from algod
-			headers: {'x-api-key': constants.algodapi}
+			url: `${constants.algodurl}/block/${blockNum + a}`, // Get block information from algod
+			headers: {'X-Algo-API-Token': constants.algodapi}
 		}).then(response => {
 			blocksArray.push(response.data); // Insert block data to blocks database as doc
 			if (Object.keys(response.data.txns).length > 0) {
@@ -88,6 +91,7 @@ async function bulkAddBlocks(blockNum, currentNum) {
 		}).catch(error => {
 			console.log("Exception when bulk adding blocks: " + error);
 		})
+		a++;
 	}
 
 	console.log(`Bulk added up to: ${blockNum + 250} of ${currentNum}`); // Log block addition
@@ -101,7 +105,7 @@ async function addBlock(blockNum, currentNum) {
 	await axios({
 		method: 'get',
 		url: `${constants.algodurl}/block/${blockNum}`, // Get block information from algod
-		headers: {'x-api-key': constants.algodapi}
+		headers: {'X-Algo-API-Token': constants.algodapi}
 	}).then(async response => {
 		blocks.insert(response.data); // Insert block data to blocks database as doc
 		if (Object.keys(response.data.txns).length > 0) {
