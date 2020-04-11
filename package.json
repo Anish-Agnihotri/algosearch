@@ -12,6 +12,7 @@
     "moment": "^2.24.0",
     "nano": "^8.2.2",
     "numeral": "^2.0.6",
+    "path": "^0.12.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hamburger-button": "^0.0.1",

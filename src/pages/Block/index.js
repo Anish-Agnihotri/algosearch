@@ -9,7 +9,7 @@ import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import AlgoIcon from '../../components/algoicon';
 import Load from '../../components/tableloading';
-import {formatValue} from '../../constants';
+import {formatValue, siteName} from '../../constants';
 
 class Block extends React.Component {
 	constructor() {
@@ -26,7 +26,7 @@ class Block extends React.Component {
 	getBlock = blockNum => {
 		axios({
 			type: 'get',
-			url: `http://localhost:8000/block/${blockNum}`
+			url: `${siteName}/block/${blockNum}`
 		}).then(response => {
 			this.setState({data: response.data, transactions: response.data.txns.transactions, loading: false});
 		}).catch(error => {

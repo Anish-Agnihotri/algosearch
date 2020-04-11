@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import './index.css';
 import { NavLink } from 'react-router-dom';
+import {siteName} from '../../constants';
 import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
 import Statscard from '../../components/statscard';
@@ -40,7 +41,7 @@ class Blocks extends React.Component {
 
 		axios({
 			method: 'get',
-			url: `http://localhost:8000/all/blocks/${headBlock}/${this.state.pageSize}/0` // Use pageSize from state
+			url: `${siteName}/all/blocks/${headBlock}/${this.state.pageSize}/0` // Use pageSize from state
 		}).then(response => {
 			this.setState({blocks: response.data}); // Set blocks to new data to render
 		}).catch(error => {
@@ -53,12 +54,12 @@ class Blocks extends React.Component {
 		// Call stats to get current round number
 		axios({
 			method: 'get',
-			url: 'http://localhost:8000/stats'
+			url: `${siteName}/stats`
 		}).then(resp => {
 			// Use current round number to retrieve last 25 blocks
 			axios({
 				method: 'get',
-				url: `http://localhost:8000/all/blocks/${resp.data.current_round + 1}/25/0`,
+				url: `${siteName}/all/blocks/${resp.data.current_round + 1}/25/0`,
 			}).then(response => {
 				this.setState({
 					blocks: response.data, // Set blocks data

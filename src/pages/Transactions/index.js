@@ -8,7 +8,7 @@ import Statscard from '../../components/statscard';
 import ReactTable from 'react-table-6';
 import AlgoIcon from '../../components/algoicon';
 import 'react-table-6/react-table.css';
-import {formatValue} from '../../constants';
+import {formatValue, siteName} from '../../constants';
 
 class Transactions extends React.Component {
 	constructor() {
@@ -40,7 +40,7 @@ class Transactions extends React.Component {
 
 		axios({
 			method: 'get',
-			url: `http://localhost:8000/all/transactions/${headtransaction}/${this.state.pageSize}/0` // Use pageSize from state
+			url: `${siteName}/all/transactions/${headtransaction}/${this.state.pageSize}/0` // Use pageSize from state
 		}).then(response => {
 			this.setState({transactions: response.data}); // Set transactions to new data to render
 		}).catch(error => {
@@ -52,12 +52,12 @@ class Transactions extends React.Component {
 		// Call stats to get max transaction
 		axios({
 			method: 'get',
-			url: 'http://localhost:8000/stats'
+			url: `${siteName}/stats`
 		}).then(statsresponse => {
 			// Use current max transactions to retrieve last 25 transactions
 			axios({
 				method: 'get',
-				url: `http://localhost:8000/all/transactions/${statsresponse.data.max_transactions}/25/0`,
+				url: `${siteName}/all/transactions/${statsresponse.data.max_transactions}/25/0`,
 			}).then(response => {
 				this.setState({
 					transactions: response.data, // Set transactions data
