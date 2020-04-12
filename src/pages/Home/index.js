@@ -25,8 +25,8 @@ class Home extends React.Component {
 			url: `${siteName}/latest`
 		}).then(response => {
 			this.setState({blocks: response.data.blocks, transactions: response.data.transactions, loading: false});
-			console.log(response.data);
 		})
+		setTimeout(this.getLatest, 1000);
 	};
 
 	componentDidMount() {
