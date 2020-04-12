@@ -100,7 +100,6 @@ async function getCurrentRound() {
 async function bulkAddBlocks(blockNum, currentNum) {
 	let blocksArray = []; // to contain 250 blocks
 	let transactionsArray = []; // to contain any transactions in those 250 blocks
-	let addressesArray = [];
 	let increment = 0; // for async loop functionality
 	
 	while (increment < 250) {
@@ -108,7 +107,7 @@ async function bulkAddBlocks(blockNum, currentNum) {
 			method: 'get',
 			url: `${constants.algodurl}/block/${blockNum + increment}`, // Retrieve each block in succession
 			headers: {'X-Algo-API-Token': constants.algodapi}
-		}).then(response => {
+		}).then(async response => {
 			blocksArray.push(response.data); // Push block to array
 
 			let timestamp = response.data.timestamp; // Collect timestamp from block
@@ -120,8 +119,38 @@ async function bulkAddBlocks(blockNum, currentNum) {
 					alltransactions[i].timestamp = timestamp;
 					transactionsArray.push(alltransactions[i]); // Push transaction to transactionsArray
 
-					// Add transaction to sending and receiving account
-					addressesArray.push({_id: alltransactions[i].from, ...alltransactions[i]}, {_id: alltransactions[i].to, ...alltransactions[i]});
+					// TODO: Add support for non-payment transactions
+					if (typeof alltransactions[i].payment !== 'undefined') {
+						// Add transaction to sending and receiving account
+						let from_account_id = alltransactions[i].from;
+						let to_account_id = alltransactions[i].payment.to;
+
+						await addresses.get(from_account_id).then(async body => {
+							console.log("Updating existing entry");
+
+							await addresses.insert({
+								_id: from_account_id, 
+								_rev: body["_rev"], 
+								transactions: [alltransactions[i], ...body["transactions"]]
+							});
+						}).catch(async () => {
+							console.log("Adding new entry");
+							await addresses.insert({_id: from_account_id, transactions: [alltransactions[i]]});
+						})
+
+						await addresses.get(to_account_id).then(async body => {
+							console.log("Updating existing entry");
+
+							await addresses.insert({
+								_id: to_account_id, 
+								_rev: body["_rev"], 
+								transactions: [alltransactions[i], ...body["transactions"]]
+							});
+						}).catch(async () => {
+							console.log("Adding new entry");
+							await addresses.insert({_id: to_account_id, transactions: [alltransactions[i]]});
+						})
+					}
 				}
 			}
 		}).catch(error => {
@@ -133,7 +162,6 @@ async function bulkAddBlocks(blockNum, currentNum) {
 
 	blocks.bulk({docs:blocksArray}); // Bulk add to blocks database
 	transactions.bulk({docs:transactionsArray}); // Bulk add to transactions database
-	addresses.bulk({docs:addressesArray}); // Bulk add to addresses database
 	console.log(`Bulk added: ${blockNum + 250} of ${currentNum}`);
 }
 
