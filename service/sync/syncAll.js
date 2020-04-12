@@ -30,6 +30,9 @@ async function updateBlocks() {
 		currentRound = await getCurrentRound(); // Get new latest round every half second
 	}, 500);
 
+	// FIXME: remove this after testing
+	syncedBlockNumber += 55000;
+
 	// If there are more than 250 blocks to sync
 	if (syncedBlockNumber + 250 < currentRound) {
 		do {
@@ -100,6 +103,7 @@ async function getCurrentRound() {
 async function bulkAddBlocks(blockNum, currentNum) {
 	let blocksArray = []; // to contain 250 blocks
 	let transactionsArray = []; // to contain any transactions in those 250 blocks
+	let addressesArray = []; // to contain any addresses and their transactions in those 250 blocks
 	let increment = 0; // for async loop functionality
 	
 	while (increment < 250) {
@@ -116,40 +120,55 @@ async function bulkAddBlocks(blockNum, currentNum) {
 				let alltransactions = response.data.txns.transactions; // Append timestamp from block to transaction
 
 				for (let i = 0; i < alltransactions.length; i++) {
-					alltransactions[i].timestamp = timestamp;
+					alltransactions[i].timestamp = timestamp; // Add timestamp to transaction (simplify front-end reporting)
 					transactionsArray.push(alltransactions[i]); // Push transaction to transactionsArray
 
 					// TODO: Add support for non-payment transactions
 					if (typeof alltransactions[i].payment !== 'undefined') {
-						// Add transaction to sending and receiving account
-						let from_account_id = alltransactions[i].from;
-						let to_account_id = alltransactions[i].payment.to;
+						let from_account_id = alltransactions[i].from; // From account
+						let to_account_id = alltransactions[i].payment.to; // To account
 
-						await addresses.get(from_account_id).then(async body => {
-							console.log("Updating existing entry");
-
-							await addresses.insert({
-								_id: from_account_id, 
-								_rev: body["_rev"], 
-								transactions: [alltransactions[i], ...body["transactions"]]
+						// If from account is already in transactions array, append to entry, else update
+						if (addressesArray.some(address => address._id === from_account_id)) {
+							// From account exists in transactionsArray
+							for (let i = 0; i < addressesArray.length; i++) {
+								// Find from account i
+								if (addressesArray[i]._id === from_account_id) {
+									// Update the array in memory to include the new transaction
+									addressesArray[i].transactions = [alltransactions[i], ...addressesArray[i]["transactions"]];
+								}
+							}
+						} else {
+							// From account is not found in the existing array in memory
+							await addresses.get(from_account_id).then(async from_body => {
+								// From account already exists in db, update transactions and push to addressesArray
+								addressesArray.push({_id: from_body._id, _rev: from_body._rev, transactions: [alltransactions[i], ...from_body["transactions"]]});
+							}).catch(async () => {
+								// From account does not exist in memory or in db, make new push to addressesArray
+								addressesArray.push({_id: from_account_id, transactions: [alltransactions[i]]});
 							});
-						}).catch(async () => {
-							console.log("Adding new entry");
-							await addresses.insert({_id: from_account_id, transactions: [alltransactions[i]]});
-						})
-
-						await addresses.get(to_account_id).then(async body => {
-							console.log("Updating existing entry");
-
-							await addresses.insert({
-								_id: to_account_id, 
-								_rev: body["_rev"], 
-								transactions: [alltransactions[i], ...body["transactions"]]
+						}
+						
+						// If to account is already in transactions array, append to entry, else update
+						if (addressesArray.some(address => address._id === to_account_id)) {
+							// To account exists in transactionsArray
+							for (let i = 0; i < addressesArray.length; i++) {
+								// Find to account i
+								if (addressesArray[i]._id === to_account_id) {
+									// Update the array in memory to include the new transaction
+									addressesArray[i].transactions = [alltransactions[i], ...addressesArray[i]["transactions"]];
+								}
+							}
+						} else {
+							// To account is not found in the existing array in memory
+							await addresses.get(to_account_id).then(async to_body => {
+								// To account already exists in db, update transactions and push to addressesArray
+								addressesArray.push({_id: to_body._id, _rev: to_body._rev, transactions: [alltransactions[i], ...to_body["transactions"]]});
+							}).catch(async () => {
+								// To account does not exist in memory or in db, make new push to addressesArray
+								addressesArray.push({_id: to_account_id, transactions: [alltransactions[i]]});
 							});
-						}).catch(async () => {
-							console.log("Adding new entry");
-							await addresses.insert({_id: to_account_id, transactions: [alltransactions[i]]});
-						})
+						}
 					}
 				}
 			}
@@ -162,6 +181,7 @@ async function bulkAddBlocks(blockNum, currentNum) {
 
 	blocks.bulk({docs:blocksArray}); // Bulk add to blocks database
 	transactions.bulk({docs:transactionsArray}); // Bulk add to transactions database
+	addresses.bulk({docs:addressesArray}); // Bulk add to addresses database
 	console.log(`Bulk added: ${blockNum + 250} of ${currentNum}`);
 }
 
