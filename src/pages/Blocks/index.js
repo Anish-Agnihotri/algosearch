@@ -120,7 +120,7 @@ class Blocks extends React.Component {
 				</div>
 				<div className="table">
 					<div>
-						<p>{this.state.current_round} blocks found</p>
+						<p>{this.state.loading ? "Loading": this.state.current_round} blocks found</p>
 						<p>(Showing the last {this.state.pageSize} records)</p>
 					</div>
 					<div>

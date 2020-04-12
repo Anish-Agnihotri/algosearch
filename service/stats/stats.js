@@ -52,4 +52,37 @@ module.exports = function(app) {
 			console.log("Exception when querying for latest 100 blocks (/stats): " + error);
 		})
 	});
+
+	// --> /latest endpoint
+	app.get('/latest', function(req, res) {
+		// Get last 10 transactions
+		nano.db.use('blocks').list({include_docs: true, descending: true, limit: 10}).then(body => {
+			let blocks = [];
+
+			for (let i = 0; i < body.rows.length; i++) {
+				blocks.push({
+					"round": body.rows[i].doc.round,
+					"proposer": body.rows[i].doc.proposer,
+					"numtxn": Object.keys(body.rows[i].doc.txns).length,
+					"timestamp": body.rows[i].doc.timestamp
+				});
+			}
+
+			nano.db.use('transactions').list({include_docs: true, descending: true, limit: 10}).then(tbody => {
+				let transactions = [];
+
+				for (let i = 0; i < tbody.rows.length; i++) {
+					transactions.push(tbody.rows[i].doc);
+				}
+
+				res.send({"blocks": blocks, "transactions": transactions});
+			}).catch(error => {
+				res.status(501);
+				console.log("Exception when querying latest 10 transactions: " + error);
+			});
+		}).catch(error => {
+			res.status(501);
+			console.log("Exception when querying latest 10 blocks: " + error);
+		});
+	});
 }

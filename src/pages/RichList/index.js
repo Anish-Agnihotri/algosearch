@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../../components/layout';
 import Breadcrumbs from '../../components/breadcrumbs';
-import Statscard from '../../components/statscard';
+// import Statscard from '../../components/statscard';
 
 class RichList extends React.Component {
 	componentDidMount() {
@@ -31,7 +31,7 @@ class RichList extends React.Component {
 						value="98.201 Billion"
 					/>
 				</div>*/}
-				<p>Coming Soon</p>
+				<center><h1>Coming Soon</h1></center>
 			</Layout>
 		);
 	}

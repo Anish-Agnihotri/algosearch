@@ -1,0 +1,52 @@
+.home-split {
+	display: inline-block;
+	width: 100%;
+}
+
+.home-split > div {
+	display: inline-block;
+	width: 46%;
+	padding-top: 20px;
+	vertical-align: top;
+}
+
+.home-split > div:first-child {
+	padding-right: 2%;
+}
+
+.home-split > div:last-child {
+	background-color: #eee;
+	padding-left: 2%;
+}
+
+@media screen and (max-width: 1000px) {
+	.home-split > div {
+		width: 100%;
+		padding: 0px 0px 0px 0px !important;
+	}
+}
+
+#home-latest-block-sizing > div:nth-child(1) > div, #home-latest-transaction-sizing > div:nth-child(1) > div {
+	min-width: 420px !important;
+}
+
+/* Table sizing --> blocks */
+#home-latest-block-sizing > div > .rt-thead > div > div:nth-child(1), #home-latest-block-sizing > div > .rt-tbody > div > div > div:nth-child(1) {
+	min-width: 100px !important;
+	max-width: 100px !important;
+} 
+
+#home-latest-block-sizing > div > .rt-thead > div > div:nth-child(2), #home-latest-block-sizing > div > .rt-tbody > div > div > div:nth-child(2) {
+	min-width: 100px !important;
+	max-width: calc(100% - 320px) !important;
+} 
+
+#home-latest-block-sizing > div > .rt-thead > div > div:nth-child(3), #home-latest-block-sizing > div > .rt-tbody > div > div > div:nth-child(3) {
+	min-width: 70px !important;
+	max-width: 70px !important;
+} 
+
+#home-latest-block-sizing > div > .rt-thead > div > div:nth-child(4), #home-latest-block-sizing > div > .rt-tbody > div > div > div:nth-child(4) {
+	min-width: 150px !important;
+	max-width: 150px !important;
+}
