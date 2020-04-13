@@ -12,6 +12,7 @@
 */
 
 var constants = require('../global'); // Require global constants
+const axios = require('axios'); // Axios for requests
 const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${constants.dbhost}`); // Connect nano to db
 
 // Export express routes
@@ -22,9 +23,12 @@ module.exports = function(app) {
 		const round = parseInt(req.params.blocknumber); // Get round number from request
 
 		// Query blocks database, skipping everything till round number, and limiting to 1 response
-		nano.db.use('blocks').list({include_docs: true, skip: round, limit: 1}).then(body => {
-			// Send doc entry
-			res.send(body.rows[0].doc);
+		axios({
+			method: 'get',
+			url: `${constants.algodurl}/block/${round}`, // Request transaction details endpoint
+			headers: {'X-Algo-API-Token': constants.algodapi}
+		}).then(response => {
+			res.send(response.data);
 		}).catch(error => {
 			res.status(501);
 			console.log(`Exception when retrieving block number ${round}: ${error}`);
@@ -53,7 +57,7 @@ module.exports = function(app) {
 		}
 
 		// Query blocks database, skipping all till lastBlock - limit, and limiting to limit
-		nano.db.use('blocks').list({include_docs: true, skip: lastBlock - limit, limit: limit}).then(body => {
+		nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, skip: lastBlock - limit, limit: limit}).then(body => {
 			let blocks = [];
 
 			for (let i = body.rows.length - 1; i >= 0; i--) {

@@ -18,8 +18,7 @@ module.exports = function(app) {
 		let current_round, reward_rate, avg_block_time, max_transactions; // Declare variables
 
 		// Retrieve latest 100 blocks
-		nano.db.use('blocks').list({include_docs: true, descending: true, limit: 100}).then(body => {
-
+		nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, limit: 100}).then(body => {
 			// Current round = latest block's round number
 			current_round = parseInt(body.rows[0].doc.round);
 
@@ -56,9 +55,8 @@ module.exports = function(app) {
 	// --> /latest endpoint
 	app.get('/latest', function(req, res) {
 		// Get last 10 transactions
-		nano.db.use('blocks').list({include_docs: true, descending: true, limit: 10}).then(body => {
+		nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, limit: 10}).then(body => {
 			let blocks = [];
-
 			for (let i = 0; i < body.rows.length; i++) {
 				blocks.push({
 					"round": body.rows[i].doc.round,
@@ -68,7 +66,7 @@ module.exports = function(app) {
 				});
 			}
 
-			nano.db.use('transactions').list({include_docs: true, descending: true, limit: 10}).then(tbody => {
+			nano.db.use('transactions').view('query', 'bytimestamp', {include_docs: true, descending: true, limit: 10}).then(tbody => {
 				let transactions = [];
 
 				for (let i = 0; i < tbody.rows.length; i++) {

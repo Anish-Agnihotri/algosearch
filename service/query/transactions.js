@@ -74,7 +74,7 @@ module.exports = function(app) {
 		}
 
 		// Query transactions database (skipping all transactions till lastTransaction), and limiting query to limit items
-		nano.db.use('transactions').list({include_docs: true, skip: lastTransaction - limit, limit: limit}).then(body => {
+		nano.db.use('transactions').view('query', 'bytimestamp', {include_docs: true, descending: true, skip: lastTransaction - limit, limit: limit}).then(body => {
 			let transaction = [];
 
 			for (let i = body.rows.length - 1; i >= 0; i--) {
