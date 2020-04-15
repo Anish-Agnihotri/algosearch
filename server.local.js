@@ -1,10 +1,12 @@
 const express = require("express"); // Import express for simplified routing
 const cors = require("cors"); // Setup cors for cross-origin requests for all routes
+const compression = require("compression");
 
 const app = express(); // Setup express 
 const port = 8000; // Setup port 8000 for Express server
 
 app.use(cors()); // Enable cors
+app.use(compression());
 
 // --> /block/:blocknumber
 // --> /all/blocks/:lastBlock/:limit/:full (paginated)

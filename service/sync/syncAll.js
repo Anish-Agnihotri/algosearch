@@ -22,7 +22,7 @@ async function updateBlocks() {
 	// currentRound = head round from algod
 	let syncedBlockNumber, currentRound;
 
-	syncedBlockNumber = await getSyncedRound(); // Get latest synced round from db
+	syncedBlockNumber = await getSyncedRound(); // Get latest synced round from db - design doc
 	currentRound = await getCurrentRound(); // Get latest round
 
 	console.log(`Starting to sync from block ${syncedBlockNumber} to ${currentRound}`);
@@ -31,15 +31,20 @@ async function updateBlocks() {
 		currentRound = await getCurrentRound(); // Get new latest round every half second
 	}, 500);
 
-	do {
-		// Ignore no-loop-func rule for syncing in do/while
-		// eslint-disable-next-line no-loop-func
-		await bulkAddBlocks(syncedBlockNumber, currentRound).then(async () => {
-			syncedBlockNumber += await 250; // Add 250 blocks, and increment the synced number
-		}).catch(error => {
-			console.log("Error when incrementing syncedBlockNumber during bulk block addition: " + error);
-		});
-	} while (currentRound - 250 > syncedBlockNumber);
+	// If block handles error when conducting first loop when condition is not met (currentRound - 250 < syncedBlockNumber)
+	if (currentRound - 250 > syncedBlockNumber) {
+			do {
+			// Ignore no-loop-func rule for syncing in do/while
+			// eslint-disable-next-line no-loop-func
+			await bulkAddBlocks(syncedBlockNumber, currentRound).then(async () => {
+				syncedBlockNumber += await 250; // Add 250 blocks, and increment the synced number
+			}).catch(error => {
+				console.log("Error when incrementing syncedBlockNumber during bulk block addition: " + error);
+			});
+		} while (currentRound - 250 > syncedBlockNumber);
+	} else {
+		return;
+	}
 }
 
 /*
@@ -48,39 +53,41 @@ async function updateBlocks() {
 	Run every 50ms (post-execution time) to keep database in sync with any new data
 */
 async function keepBlocksUpdated() {
-	// syncedBlockNumber = head round in db
-	// currentRound = head round from algod
-	let syncedBlockNumber, currentRound;
-
-	syncedBlockNumber = await getSyncedRound(); // Get latest synced round from db
-	currentRound = await getCurrentRound(); // Get latest round
-	
-	// If there are new blocks:
-	if (syncedBlockNumber < currentRound) {
-		// Add new blocks to database
-		await addBlock(syncedBlockNumber, currentRound);
-	} else {
-		// Else, skip
-		console.log("Blocks are up to date, sleeping for 50ms");
-	}
-
-	// Recursive call self after 50ms sleep
-	await setTimeout(keepBlocksUpdated, 50);
+	// Wait for synced round
+	await getSyncedRound().then(async syncedRound => {
+		// Wait for current round
+		await getCurrentRound().then(async currentRound => {
+			// If synced round < current round
+			if (syncedRound < currentRound) {
+				// Add the new block
+				await addBlock(syncedRound + 1, currentRound).then(async () => {
+					console.log("Found block");
+					// Take a quick break for a second and recall
+					setTimeout(keepBlocksUpdated, 1000);
+				});
+			} else {
+				// If synced round === current round, recall in 100ms
+				setTimeout(keepBlocksUpdated, 100);
+			}
+		})
+	})
 }
 
 /*
 	Get current synced round from blocks db
 */
 async function getSyncedRound() {
-	let round;
+	let round; // declare round variable
 
-	await nano.db.get('blocks').then((body) => {
-		round = body.doc_count; // Get current db synced block
+	// Query for view and retrieve the latest block
+	await nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, limit: 1}).then((body) => {
+		round = body.rows[0].doc.round; // Get the round number from the latest block
+		console.log('current round:' + round);
 	}).catch(error => {
 		console.log('Exception when retrieving synced block number: ' + error);
 	})
 
-	return round;
+	return round; // Return round number
 }
 
 /*
@@ -114,7 +121,7 @@ async function bulkAddBlocks(blockNum, currentNum) {
 	while (increment < 250) {
 		await axios({
 			method: 'get',
-			url: `${constants.algodurl}/block/${blockNum + increment}`, // Retrieve each block in succession
+			url: `${constants.algodurl}/block/${blockNum + increment + 1}`, // Retrieve each block in succession
 			headers: {'X-Algo-API-Token': constants.algodapi}
 		}).then(async response => {
 			blocksArray.push(response.data); // Push block to array
@@ -184,9 +191,20 @@ async function bulkAddBlocks(blockNum, currentNum) {
 		increment++; // Increment for async loop functionality
 	}
 
-	blocks.bulk({docs:blocksArray}); // Bulk add to blocks database
-	transactions.bulk({docs:transactionsArray}); // Bulk add to transactions database
-	addresses.bulk({docs:addressesArray}); // Bulk add to addresses database
+	// Bulk add to blocks database
+	blocks.bulk({docs:blocksArray}).then(async () => {
+		console.log("Added to blocks");
+	}).catch(async error => {
+		console.log("Error when bulk adding to blocks db: " + error);
+	});
+
+	// Bulk add to transactions database
+	transactions.bulk({docs:transactionsArray}).then(async () => {
+		console.log("Added to transactions");
+	}).catch(async error => {
+		console.log("Error when bulk adding to transactions db: " + error);
+	});
+
 	console.log(`Bulk added: ${blockNum + 250} of ${currentNum}`);
 }
 
@@ -208,7 +226,11 @@ async function addBlock(blockNum, currentNum) {
 				alltransactions[i].timestamp = timestamp; // Add timestamp to transaction (simplify front-end reporting)
 				transactions.insert(alltransactions[i]);
 				
-				// If transaction is of payment type
+				/*
+				The following code is used to add transactions to the accounts database,
+				but is currently disabled until cleanup of the current database and 
+				launch to production servers (due to memory usage when conducting operation)
+				
 				if (typeof alltransactions[i].payment !== 'undefined') {
 					let from_account_id = alltransactions[i].from; // From account
 					let to_account_id = alltransactions[i].payment.to; // To account
@@ -230,7 +252,7 @@ async function addBlock(blockNum, currentNum) {
 						// If account does not exist in db, create a new record
 						await addresses.insert({_id: to_account_id, transactions: [alltransactions[i]]});
 					});
-				}
+				}*/
 			}
 		}
 		console.log(`Block added: ${blockNum} of ${currentNum}`); // Log block addition

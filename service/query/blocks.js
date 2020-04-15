@@ -59,7 +59,7 @@ module.exports = function(app) {
 		// Query blocks database, skipping all till lastBlock - limit, and limiting to limit
 		nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, skip: lastBlock - limit, limit: limit}).then(body => {
 			let blocks = [];
-
+			
 			for (let i = body.rows.length - 1; i >= 0; i--) {
 				if (showFull) {
 					// If showFull = 1, send all data
@@ -76,7 +76,7 @@ module.exports = function(app) {
 				}
 			}
 
-			res.send(blocks);
+			res.send(blocks.reverse());
 		}).catch(error => {
 			res.status(501);
 			console.log("Exception when listing all blocks: " + error);

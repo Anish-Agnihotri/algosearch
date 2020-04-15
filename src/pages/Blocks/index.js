@@ -37,7 +37,7 @@ class Blocks extends React.Component {
 	// Update blocks based on page number
 	updateBlocks = pageIndex => {
 		// Let the request headerblock be current_round - (current page * pageSize)
-		let headBlock = this.state.current_round - (pageIndex * this.state.pageSize);
+		let headBlock = pageIndex * this.state.pageSize;
 
 		axios({
 			method: 'get',
@@ -59,7 +59,7 @@ class Blocks extends React.Component {
 			// Use current round number to retrieve last 25 blocks
 			axios({
 				method: 'get',
-				url: `${siteName}/all/blocks/${resp.data.current_round + 1}/25/0`,
+				url: `${siteName}/all/blocks/25/25/0`,
 			}).then(response => {
 				this.setState({
 					blocks: response.data, // Set blocks data

@@ -95,7 +95,7 @@ module.exports = function(app) {
 				}
 			}
 
-			res.send(transaction);
+			res.send(transaction.reverse());
 		}).catch(error => {
 			res.status(501);
 			console.log("Exception when listing all blocks: " + error);
