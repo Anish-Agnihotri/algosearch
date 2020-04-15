@@ -43,7 +43,7 @@ async function updateBlocks() {
 			});
 		} while (currentRound - 250 > syncedBlockNumber);
 	} else {
-		return;
+		setTimeout(keepBlocksUpdated, 50);
 	}
 }
 
@@ -52,22 +52,28 @@ async function updateBlocks() {
 	current block in db and highest existing block from blockchain
 	Run every 50ms (post-execution time) to keep database in sync with any new data
 */
-async function keepBlocksUpdated() {
+async function keepBlocksUpdated(lastRound) {
+	if (typeof lastRound === 'undefined') {
+		lastRound = 0;
+	}
 	// Wait for synced round
 	await getSyncedRound().then(async syncedRound => {
 		// Wait for current round
 		await getCurrentRound().then(async currentRound => {
 			// If synced round < current round
-			if (syncedRound < currentRound) {
+			if (syncedRound < currentRound && lastRound !== currentRound) {
 				// Add the new block
 				await addBlock(syncedRound + 1, currentRound).then(async () => {
-					console.log("Found block");
 					// Take a quick break for a second and recall
-					setTimeout(keepBlocksUpdated, 1000);
+					await setTimeout(function() {
+						keepBlocksUpdated(syncedRound + 1);
+					}, 500);
 				});
 			} else {
 				// If synced round === current round, recall in 100ms
-				setTimeout(keepBlocksUpdated, 100);
+				await setTimeout(function() {
+					keepBlocksUpdated(syncedRound);
+				}, 100);
 			}
 		})
 	})
@@ -82,7 +88,6 @@ async function getSyncedRound() {
 	// Query for view and retrieve the latest block
 	await nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, limit: 1}).then((body) => {
 		round = body.rows[0].doc.round; // Get the round number from the latest block
-		console.log('current round:' + round);
 	}).catch(error => {
 		console.log('Exception when retrieving synced block number: ' + error);
 	})
@@ -262,12 +267,4 @@ async function addBlock(blockNum, currentNum) {
 }
 
 // Run script
-async function run() {
-	// updateBlocks runs to bring database +/- 250 blocks to blockchain
-	await updateBlocks();
-	// Recursive keepBlocksUpdated runs to keep database in +/- 1 sync to blockchain
-	setTimeout(keepBlocksUpdated, 50);
-}
-
-// Execute syncAll script
-run();
+updateBlocks();

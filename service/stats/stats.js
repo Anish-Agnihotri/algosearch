@@ -14,7 +14,7 @@ const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${c
 module.exports = function(app) {
 
 	// --> /stats endpoint
-	app.get('/stats', function(req, res) {
+	app.get('/api/stats', function(req, res) {
 		let current_round, reward_rate, avg_block_time, max_transactions; // Declare variables
 
 		// Retrieve latest 100 blocks
@@ -53,7 +53,7 @@ module.exports = function(app) {
 	});
 
 	// --> /latest endpoint
-	app.get('/latest', function(req, res) {
+	app.get('/api/latest', function(req, res) {
 		// Get last 10 transactions
 		nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, limit: 10}).then(body => {
 			let blocks = [];

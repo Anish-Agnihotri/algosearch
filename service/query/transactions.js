@@ -14,7 +14,7 @@ var axios = require('axios'); // Require axios
 module.exports = function(app) {
 
 	// --> Return single transaction information
-	app.get('/transaction/:txid', function(req, res) {
+	app.get('/api/transaction/:txid', function(req, res) {
 		const txid = req.params.txid; // Get txid from address
 
 		axios({
@@ -42,7 +42,7 @@ module.exports = function(app) {
 	});
 
 	// --> Return all transaction data for a single address
-	app.get('/all/addresstx/:address', function(req, res) {
+	app.get('/api/all/addresstx/:address', function(req, res) {
 		var address = req.params.address; // Get address from request
 
 		axios({
@@ -58,7 +58,7 @@ module.exports = function(app) {
 	});
 
 	// --> Return paginated transaction data
-	app.get('/all/transactions/:lastTransaction/:limit/:full', function(req, res) {
+	app.get('/api/all/transactions/:lastTransaction/:limit/:full', function(req, res) {
 		var lastTransaction = parseInt(req.params.lastTransaction); // Pagination handler
 		var limit = parseInt(req.params.limit); // Limit (max: 100)
 		const showFull = parseInt(req.params.full) === 0 ? false : true; // If 0, truncated data (save bandwidth), else full response
