@@ -13,7 +13,7 @@ const axios = require("axios"); // Axios for requests
 module.exports = function(app) {
 
 	// --> Single address data retrieval
-	app.get('/api/address/:address', function(req, res) {
+	app.get('/addressservice/:address', function(req, res) {
 		const address = req.params.address; // Get address from url
 
 		// Request basic account information

@@ -8,11 +8,11 @@ const port = 8000; // Setup port 8000 for Express server
 app.use(cors()); // Enable cors
 app.use(compression());
 
-// --> /block/:blocknumber
+// --> /blockservice/:blocknumber
 // --> /all/blocks/:lastBlock/:limit/:full (paginated)
 require('./service/query/blocks')(app);
 
-// --> /transaction/:txid
+// --> /transactionservice/:txid
 // --> /all/transactions/:lastTransaction/:limit/:full (paginated)
 // --> /all/addresstx/:address
 require('./service/query/transactions')(app);

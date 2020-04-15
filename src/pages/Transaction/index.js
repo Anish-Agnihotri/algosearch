@@ -23,7 +23,7 @@ class Transaction extends React.Component {
 	getTransaction = txid => {
 		axios({
 			method: 'get',
-			url: `${siteName}/transaction/${txid}`
+			url: `${siteName}/transactionservice/${txid}`
 		}).then(response => {
 			this.setState({transaction: response.data, loading: false});
 		}).catch(error => {

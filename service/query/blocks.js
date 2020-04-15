@@ -19,13 +19,13 @@ const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${c
 module.exports = function(app) {
 
 	// --> Single block data retrieval
-	app.get('/api/block/:blocknumber', function(req, res) {
+	app.get('/blockservice/:blocknumber', function(req, res) {
 		const round = parseInt(req.params.blocknumber); // Get round number from request
 
 		// Query blocks database, skipping everything till round number, and limiting to 1 response
 		axios({
 			method: 'get',
-			url: `${constants.algodurl}/block/${round}`, // Request transaction details endpoint
+			url: `${constants.algodurl}/blockservice/${round}`, // Request transaction details endpoint
 			headers: {'X-Algo-API-Token': constants.algodapi}
 		}).then(response => {
 			res.send(response.data);
@@ -41,7 +41,7 @@ module.exports = function(app) {
 		:limit = maximum 100 records retrieved
 		:full = if 0, return truncated data, else return full data
 	*/
-    app.get('/api/all/blocks/:lastBlock/:limit/:full', function(req, res) {
+    app.get('/all/blocks/:lastBlock/:limit/:full', function(req, res) {
 		var lastBlock = parseInt(req.params.lastBlock); // lastBlock from query for pagination
 		var limit = parseInt(req.params.limit); // limit (max. 100)
 		const showFull = parseInt(req.params.full) === 0 ? false : true; // If 0, return truncated. If 1, return full.

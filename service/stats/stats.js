@@ -14,7 +14,7 @@ const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${c
 module.exports = function(app) {
 
 	// --> /stats endpoint
-	app.get('/api/stats', function(req, res) {
+	app.get('/stats', function(req, res) {
 		let current_round, reward_rate, avg_block_time, max_transactions; // Declare variables
 
 		// Retrieve latest 100 blocks

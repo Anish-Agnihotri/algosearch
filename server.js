@@ -15,24 +15,24 @@ app.get("/", function(req, res) {
         res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// --> Catch all for serving other requests
-app.get("*", function(req, res) {
-        res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-// --> /block/:blocknumber
+// --> /blockservice/:blocknumber
 // --> /all/blocks/:lastBlock/:limit/:full (paginated)
 require('./service/query/blocks')(app);
 
-// --> /transaction/:txid
+// --> /transactionservice/:txid
 // --> /all/transactions/:lastTransaction/:limit/:full (paginated)
 // --> /all/addresstx/:address
 require('./service/query/transactions')(app);
 
-// --> /address/:address
+// --> /addressservice/:address
 require('./service/query/addresses')(app);
 
 // --> /stats
 require('./service/stats/stats')(app);
+
+// --> Catch all for serving other requests
+app.get("*", function(req, res) {
+        res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 app.listen(port); // Initialize server

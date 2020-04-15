@@ -24,7 +24,7 @@ class Address extends React.Component {
 	getAddressData = address => {
 		axios({
 			method: 'get',
-			url: `${siteName}/address/${address}`
+			url: `${siteName}/addressservice/${address}`
 		}).then(response => {
 			this.setState({data: response.data, loading: false});
 		}).catch(error => {
