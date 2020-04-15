@@ -26,7 +26,7 @@ module.exports = function(app) {
 
 			axios({
 				method: 'get',
-				url: `${constants.algodurl}/blockservice/${result.round}`,
+				url: `${constants.algodurl}/block/${result.round}`,
 				headers: {'X-Algo-API-Token': constants.algodapi}
 			}).then(resp => {
 				result.timestamp = resp.data.timestamp; // Add timestamp to result JSON

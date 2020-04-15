@@ -25,6 +25,8 @@ class Home extends React.Component {
 			url: `${siteName}/latest`
 		}).then(response => {
 			this.setState({blocks: response.data.blocks, transactions: response.data.transactions, loading: false});
+		}).catch(error => {
+			console.log("Error when retrieving latest statistics: " + error);
 		})
 		setTimeout(this.getLatest, 1000);
 	};
@@ -47,7 +49,7 @@ class Home extends React.Component {
 			{Header: 'TX ID', accessor: 'tx', Cell: props => <NavLink to={`/tx/${props.value}`}>{props.value}</NavLink>}, 
 			{Header: 'From', accessor: 'from',  Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
 			{Header: 'To', accessor: 'payment.to',  Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>}, 
-			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{formatValue(props.value / 1000000)} <AlgoIcon /></span>},
+			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{<span className="nocolor">{formatValue(props.value / 1000000)}</span>} <AlgoIcon /></span>},
 			{Header: 'Time', accessor: 'timestamp', Cell: props => <span className="nocolor">{moment.unix(props.value).fromNow()}</span>}
 		];
 		const transaction_columns_id = {id: "home-latest-transaction-sizing"};

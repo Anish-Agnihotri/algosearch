@@ -26,7 +26,7 @@ class Block extends React.Component {
 	getBlock = blockNum => {
 		axios({
 			type: 'get',
-			url: `${siteName}/block/${blockNum}`
+			url: `${siteName}/blockservice/${blockNum}`
 		}).then(response => {
 			this.setState({data: response.data, transactions: response.data.txns.transactions, loading: false});
 		}).catch(error => {

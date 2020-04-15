@@ -25,7 +25,7 @@ module.exports = function(app) {
 		// Query blocks database, skipping everything till round number, and limiting to 1 response
 		axios({
 			method: 'get',
-			url: `${constants.algodurl}/blockservice/${round}`, // Request transaction details endpoint
+			url: `${constants.algodurl}/block/${round}`, // Request transaction details endpoint
 			headers: {'X-Algo-API-Token': constants.algodapi}
 		}).then(response => {
 			res.send(response.data);

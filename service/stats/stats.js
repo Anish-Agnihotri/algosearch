@@ -8,6 +8,7 @@
 */
 
 var constants = require('../global'); // Require global constants
+var axios = require('axios');
 const nano = require("nano")(`http://${constants.dbuser}:${constants.dbpass}@${constants.dbhost}`); // Connect nano to db
 
 // Export Express routes
@@ -54,33 +55,42 @@ module.exports = function(app) {
 
 	// --> /latest endpoint
 	app.get('/api/latest', function(req, res) {
-		// Get last 10 transactions
-		nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, limit: 10}).then(body => {
-			let blocks = [];
-			for (let i = 0; i < body.rows.length; i++) {
-				blocks.push({
-					"round": body.rows[i].doc.round,
-					"proposer": body.rows[i].doc.proposer,
-					"numtxn": Object.keys(body.rows[i].doc.txns).length,
-					"timestamp": body.rows[i].doc.timestamp
-				});
-			}
-
-			nano.db.use('transactions').view('query', 'bytimestamp', {include_docs: true, descending: true, limit: 10}).then(tbody => {
-				let transactions = [];
-
-				for (let i = 0; i < tbody.rows.length; i++) {
-					transactions.push(tbody.rows[i].doc);
+		axios({
+			method: 'get',
+			url: `${constants.algodurl}/ledger/supply`, // Request ledger supply endpoint
+			headers: {'X-Algo-API-Token': constants.algodapi}
+		}).then(lbody => {
+			// Get last 10 transactions
+			nano.db.use('blocks').view('latest', 'latest', {include_docs: true, descending: true, limit: 10}).then(body => {
+				let blocks = [];
+				for (let i = 0; i < body.rows.length; i++) {
+					blocks.push({
+						"round": body.rows[i].doc.round,
+						"proposer": body.rows[i].doc.proposer,
+						"numtxn": Object.keys(body.rows[i].doc.txns).length,
+						"timestamp": body.rows[i].doc.timestamp
+					});
 				}
 
-				res.send({"blocks": blocks, "transactions": transactions});
+				nano.db.use('transactions').view('query', 'bytimestamp', {include_docs: true, descending: true, limit: 10}).then(tbody => {
+					let transactions = [];
+
+					for (let i = 0; i < tbody.rows.length; i++) {
+						transactions.push(tbody.rows[i].doc);
+					}
+
+					res.send({"blocks": blocks, "transactions": transactions, "ledger": lbody.data});
+				}).catch(error => {
+					res.status(501);
+					console.log("Exception when querying latest 10 transactions: " + error);
+				});
 			}).catch(error => {
 				res.status(501);
-				console.log("Exception when querying latest 10 transactions: " + error);
+				console.log("Exception when querying latest 10 blocks: " + error);
 			});
 		}).catch(error => {
 			res.status(501);
-			console.log("Exception when querying latest 10 blocks: " + error);
-		});
+			console.log("Exception when querying ledger supply: " + error);
+		})
 	});
 }
