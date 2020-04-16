@@ -27,7 +27,6 @@ class Home extends React.Component {
 			method: 'get',
 			url: `${siteName}/latest`
 		}).then(response => {
-			console.log(response.data);
 			const synced = Math.ceil(response.data.blocks[0].round/100)*100 === Math.ceil(response.data.ledger.round/100)*100 ? true : false;
 			this.setState({blocks: response.data.blocks, transactions: response.data.transactions, ledger: response.data.ledger, synced: synced, loading: false});
 		}).catch(error => {

@@ -27,6 +27,9 @@ require('./service/query/transactions')(app);
 // --> /addressservice/:address
 require('./service/query/addresses')(app);
 
+// --> /detect/:string
+require('./service/query/detection')(app);
+
 // --> /stats
 require('./service/stats/stats')(app);
 
