@@ -44,7 +44,7 @@ class AddressTransaction extends React.Component {
 			{Header: '', accessor: 'from', Cell: props => this.state.address === props.value ? <span className="type noselect">OUT</span> : <span className="type type-width-in noselect">IN</span>},
 			{Header: 'To', accessor: 'payment.to', Cell: props => this.state.address === props.value ? <span className="nocolor">{props.value}</span> : <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
 			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{formatValue(props.value / 1000000)} <AlgoIcon /></span>},
-			{Header: 'Time', accessor: 'round', Cell: props=> <span className="nocolor">some long stamp</span>}
+			{Header: 'Time', accessor: 'round', Cell: props=> <span className="nocolor">Coming soon</span>}
 		];
 
 		return (
