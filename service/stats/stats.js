@@ -54,7 +54,7 @@ module.exports = function(app) {
 	});
 
 	// --> /latest endpoint
-	app.get('/api/latest', function(req, res) {
+	app.get('/latest', function(req, res) {
 		axios({
 			method: 'get',
 			url: `${constants.algodurl}/ledger/supply`, // Request ledger supply endpoint

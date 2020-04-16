@@ -8,6 +8,9 @@ import {formatValue, siteName} from '../../constants';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import AlgoIcon from '../../components/algoicon';
+import Statscard from '../../components/statscard';
+import Load from '../../components/tableloading';
+import HomeSearch from '../../components/homesearch';
 
 class Home extends React.Component {
 	constructor() {
@@ -24,15 +27,29 @@ class Home extends React.Component {
 			method: 'get',
 			url: `${siteName}/latest`
 		}).then(response => {
-			this.setState({blocks: response.data.blocks, transactions: response.data.transactions, loading: false});
+			console.log(response.data);
+			const synced = Math.ceil(response.data.blocks[0].round/100)*100 === Math.ceil(response.data.ledger.round/100)*100 ? true : false;
+			this.setState({blocks: response.data.blocks, transactions: response.data.transactions, ledger: response.data.ledger, synced: synced, loading: false});
 		}).catch(error => {
 			console.log("Error when retrieving latest statistics: " + error);
 		})
 		setTimeout(this.getLatest, 1000);
 	};
 
+	getPrice = () => {
+		axios({
+			method: 'get',
+			url: 'https://api.coingecko.com/api/v3/simple/price?ids=algorand&vs_currencies=usd'
+		}).then(response => {
+			this.setState({price: response.data.algorand.usd});
+		}).catch(error => {
+			console.log("Error when retrieving Algorand price from CoinGecko: " + error);
+		})
+	}
+
 	componentDidMount() {
 		document.title="AlgoSearch | Home";
+		this.getPrice();
 		this.getLatest();
 	}
 
@@ -55,7 +72,36 @@ class Home extends React.Component {
 		const transaction_columns_id = {id: "home-latest-transaction-sizing"};
 
 		return (
-			<Layout homepage>
+			<Layout synced={this.state.synced} homepage>
+				<HomeSearch />
+				<div className="cardcontainer address-cards home-cards">
+					<Statscard
+						stat="Latest Round"
+						value={this.state.loading ? <Load /> : formatValue(this.state.ledger.round)}
+					/>
+					<Statscard
+						stat="Online Stake"
+						value={this.state.loading ? <Load /> : (
+							<div>
+								{formatValue(this.state.ledger.onlineMoney / 1000000)}
+								<AlgoIcon />
+							</div>
+						)}
+					/>
+					<Statscard
+						stat="Circulating supply"
+						value={this.state.loading ? <Load /> : (
+							<div>
+								{formatValue(this.state.ledger.totalMoney / 1000000)}
+								<AlgoIcon />
+							</div>
+						)}
+					/>
+					<Statscard
+						stat="Algo Price"
+						value={this.state.loading ? <Load /> : '$' + formatValue(this.state.price)}
+					/>
+				</div>
 				<div className="home-split">
 					<div>
 						<div className="block-table addresses-table">

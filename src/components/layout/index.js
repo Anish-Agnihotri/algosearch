@@ -25,7 +25,7 @@ class Layout extends React.Component {
 					<AddressHeader data={this.props.data} />
 				) : null}
 				{this.props.homepage ? (
-					<HomeHeader />
+					<HomeHeader synced={this.props.synced} />
 				) : null}
 				<div className="content">
 					<div className="sizer">

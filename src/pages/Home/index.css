@@ -1,21 +1,28 @@
 .home-split {
 	display: inline-block;
 	width: 100%;
+	text-align: center;
 }
 
 .home-split > div {
 	display: inline-block;
-	width: 46%;
+	width: 49%;
 	padding-top: 20px;
 	vertical-align: top;
+	text-align: left;
 }
 
-.home-split > div:first-child {
-	padding-right: 2%;
+.home-split > div:nth-child(1) {
+	margin-right: 1%;
 }
 
-.home-split > div:last-child {
-	padding-left: 2%;
+.home-split > div:nth-child(2) {
+	margin-left: 1%;
+}
+
+.home-cards {
+	transform: translateY(0px) !important;
+	margin-top: 20px;
 }
 
 @media screen and (max-width: 1000px) {
@@ -59,18 +66,18 @@
 } 
 
 #home-latest-transaction-sizing > div > .rt-thead > div > div:nth-child(2), #home-latest-transaction-sizing > div > .rt-tbody > div > div > div:nth-child(2) {
-	min-width: 65px !important;
-	max-width: calc((100% - 290px) / 2);
+	min-width: 45px !important;
+	max-width: calc((100% - 330px) / 2);
 } 
 
 #home-latest-transaction-sizing > div > .rt-thead > div > div:nth-child(3), #home-latest-transaction-sizing > div > .rt-tbody > div > div > div:nth-child(3) {
-	min-width: 65px !important;
-	max-width: calc((100% - 290px) / 2);
+	min-width: 45px !important;
+	max-width: calc((100% - 330px) / 2);
 } 
 
 #home-latest-transaction-sizing > div > .rt-thead > div > div:nth-child(4), #home-latest-transaction-sizing > div > .rt-tbody > div > div > div:nth-child(4) {
-	min-width: 100px !important;
-	max-width: 100px !important;
+	min-width: 140px !important;
+	max-width: 140px !important;
 } 
 
 #home-latest-transaction-sizing > div > .rt-thead > div > div:nth-child(5), #home-latest-transaction-sizing > div > .rt-tbody > div > div > div:nth-child(5) {

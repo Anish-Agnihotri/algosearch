@@ -73,32 +73,37 @@ module.exports = function(app) {
 			limit = lastTransaction;
 		}
 
-		// Query transactions database (skipping all transactions till lastTransaction), and limiting query to limit items
-		nano.db.use('transactions').view('query', 'bytimestamp', {include_docs: true, descending: true, skip: lastTransaction - limit, limit: limit}).then(body => {
-			let transaction = [];
+		nano.db.get('transactions').then(getresponse => {
+			// Query transactions database (skipping all transactions till lastTransaction), and limiting query to limit items
+			nano.db.use('transactions').view('query', 'bytimestamp', {include_docs: true, descending: true, skip: lastTransaction - limit, limit: limit}).then(body => {
+				let transaction = [];
 
-			for (let i = body.rows.length - 1; i >= 0; i--) {
-				if (showFull) {
-					// If showFull = 1, return all data
-					transaction.push(body.rows[i]);
-				} else {
-					// If showFull = 0, return truncated data (for tables and low bandwidth usage)
-					transaction.push({
-						"round": body.rows[i].doc.round,
-						"type": body.rows[i].doc.type,
-						"tx": body.rows[i].doc.tx,
-						"from": body.rows[i].doc.from,
-						"to": body.rows[i].doc.payment.to,
-						"amount": parseInt(body.rows[i].doc.payment.amount)/1000000,
-						"fee": parseInt(body.rows[i].doc.fee)/1000000,
-					});
+				for (let i = body.rows.length - 1; i >= 0; i--) {
+					if (showFull) {
+						// If showFull = 1, return all data
+						transaction.push(body.rows[i]);
+					} else {
+						// If showFull = 0, return truncated data (for tables and low bandwidth usage)
+						transaction.push({
+							"round": body.rows[i].doc.round,
+							"type": body.rows[i].doc.type,
+							"tx": body.rows[i].doc.tx,
+							"from": body.rows[i].doc.from,
+							"to": body.rows[i].doc.payment.to,
+							"amount": parseInt(body.rows[i].doc.payment.amount)/1000000,
+							"fee": parseInt(body.rows[i].doc.fee)/1000000,
+						});
+					}
 				}
-			}
 
-			res.send(transaction.reverse());
+				res.send({"total_transactions": getresponse.doc_count, "transactions": transaction.reverse()});
+			}).catch(error => {
+				res.status(501);
+				console.log("Exception when listing all blocks: " + error);
+			})
 		}).catch(error => {
 			res.status(501);
-			console.log("Exception when listing all blocks: " + error);
+			console.log("Exception when retrieving total transactions count: " + error);
 		})
     });
 }

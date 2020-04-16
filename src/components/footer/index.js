@@ -5,7 +5,7 @@ class Footer extends React.Component {
 	render() {
 		return (
 			<div className="footerItem">
-				<p>&copy; 2020 AlgoSearch. Inspired by{" "}
+				<p>&copy; 2020 AlgoSearch. Design inspired by {" "}
 					<a href="https://libexplorer.com/" target="_blank" rel="noopener noreferrer">LibExplorer</a>.
 				</p>
 			</div>

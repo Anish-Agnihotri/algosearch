@@ -36,40 +36,31 @@ class Transactions extends React.Component {
 	// Update transactions based on page number
 	updateTransactions = pageIndex => {
 		// Let the request headtransaction be max_transactions - (current page * pageSize)
-		let headtransaction = this.state.max_transactions - (pageIndex * this.state.pageSize);
+		let headTransaction = pageIndex * this.state.pageSize;
 
 		axios({
 			method: 'get',
-			url: `${siteName}/all/transactions/${headtransaction}/${this.state.pageSize}/0` // Use pageSize from state
+			url: `${siteName}/all/transactions/${headTransaction}/${this.state.pageSize}/0` // Use pageSize from state
 		}).then(response => {
-			this.setState({transactions: response.data}); // Set transactions to new data to render
+			this.setState({transactions: response.data.transactions}); // Set transactions to new data to render
 		}).catch(error => {
 			console.log("Exception when updating transactions: " + error);
 		})
 	};
 
 	getTransactions = () => {
-		// Call stats to get max transaction
 		axios({
 			method: 'get',
-			url: `${siteName}/stats`
-		}).then(statsresponse => {
-			// Use current max transactions to retrieve last 25 transactions
-			axios({
-				method: 'get',
-				url: `${siteName}/all/transactions/${statsresponse.data.max_transactions}/25/0`,
-			}).then(response => {
-				this.setState({
-					transactions: response.data, // Set transactions data
-					max_transactions: statsresponse.data.max_transactions, // Set max_transaction to most recent transaction
-					pages: Math.ceil(statsresponse.data.max_transactions / 25), // Set pages to rounded up division
-					loading: false // Set loading to false
-				});
-			}).catch(error => {
-				console.log("Exception when retrieving last 25 transactions: " + error);
-			})
+			url: `${siteName}/all/transactions/25/25/0`,
+		}).then(response => {
+			this.setState({
+				transactions: response.data.transactions, // Set transactions data
+				max_transactions: response.data.total_transactions,
+				pages: Math.ceil(response.data.total_transactions / 25), // Set pages to rounded up division
+				loading: false // Set loading to false
+			});
 		}).catch(error => {
-			console.log("Exception when retrieving current max transactions: " + error);
+			console.log("Exception when retrieving last 25 transactions: " + error);
 		})
 	}
 
