@@ -28,7 +28,38 @@ module.exports = function(app) {
 				method: 'get',
 				url: `${constants.algodurl}/account/${address}/transactions?max=25`,
 				headers: {'X-Algo-API-Token': constants.algodapi}
-			}).then(resp => {
+			}).then(async resp => {
+				let rounds = [];
+
+				for (let i = 0; i < resp.data.transactions.length; i++) {
+					rounds.push(resp.data.transactions[i].round);
+				}
+
+				let uniqueRounds = [...new Set(rounds)];
+				let roundsWithTimestamp = [];
+				
+				for (let i = 0; i < uniqueRounds.length; i++) {
+					await axios({
+						method: 'get',
+						url: `${constants.algodurl}/block/${uniqueRounds[i]}`,
+						headers: {'X-Algo-API-Token': constants.algodapi} 
+					}).then(blockresponse => {
+						roundsWithTimestamp.push({"round": blockresponse.data.round, "timestamp": blockresponse.data.timestamp});
+					}).catch(error => {
+						res.status(501);
+						console.log("Exception when querying for round timestamp: " + error);
+					})
+				}
+
+				for (let i = 0; i < resp.data.transactions.length; i++) {
+					let round = resp.data.transactions[i].round;
+					for (let j = 0; j < roundsWithTimestamp.length; j++) {
+						if (roundsWithTimestamp[j].round === round) {
+							resp.data.transactions[i].timestamp = roundsWithTimestamp[j].timestamp;
+						}
+					}
+				}
+
 				// Add transactions to result
 				result.confirmed_transactions = resp.data.transactions;
 				res.send(result);

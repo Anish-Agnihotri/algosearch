@@ -9,6 +9,7 @@ import AlgoIcon from '../../components/algoicon';
 import {NavLink} from 'react-router-dom';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
+import moment from 'moment';
 
 class Address extends React.Component {
 	constructor() {
@@ -48,7 +49,7 @@ class Address extends React.Component {
 			{Header: '', accessor: 'from', Cell: props => this.state.address === props.value ? <span className="type noselect">OUT</span> : <span className="type type-width-in noselect">IN</span>},
 			{Header: 'To', accessor: 'payment.to', Cell: props => this.state.address === props.value ? <span className="nocolor">{props.value}</span> : <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
 			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{formatValue(props.value / 1000000)} <AlgoIcon /></span>},
-			{Header: 'Time', accessor: 'round', Cell: props=> <span className="nocolor">some long stamp</span>}
+			{Header: 'Time', accessor: 'timestamp', Cell: props=> <span className="nocolor">{moment.unix(props.value).fromNow()}</span>}
 		];
 
 		return (
@@ -59,8 +60,8 @@ class Address extends React.Component {
 			addresspage>
 				<div className="cardcontainer address-cards">
 					<Statscard
-						stat="Total transactions"
-						value={this.state.loading ? <Load /> : 0}
+						stat="Round last seen"
+						value={this.state.loading ? <Load /> : formatValue(this.state.data.confirmed_transactions[0].round)}
 					/>
 					<Statscard
 						stat="Rewards"

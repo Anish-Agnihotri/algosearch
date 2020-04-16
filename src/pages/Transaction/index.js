@@ -81,7 +81,7 @@ class Transaction extends React.Component {
 								<tr>
 									<td>Amount</td>
 									<td>{this.state.loading ? <Load /> : (
-										<div>
+										<div className="tx-hasicon">
 											{formatValue(this.state.transaction.payment.amount / 1000000)}
 											<AlgoIcon />
 										</div>
@@ -90,7 +90,7 @@ class Transaction extends React.Component {
 								<tr>
 									<td>Fee</td>
 									<td>{this.state.loading ? <Load /> : (
-										<div>
+										<div className="tx-hasicon">
 											{formatValue(this.state.transaction.fee / 1000000)}
 											<AlgoIcon />
 										</div>
@@ -147,7 +147,7 @@ class Transaction extends React.Component {
 								<tr>
 									<td>From rewards</td>
 									<td>{this.state.loading ? <Load /> : (
-										<div>
+										<div className="tx-hasicon">
 											{formatValue(this.state.transaction.fromrewards / 1000000)}
 											<AlgoIcon />
 										</div>
@@ -156,7 +156,7 @@ class Transaction extends React.Component {
 								<tr>
 									<td>To rewards</td>
 									<td>{this.state.loading ? <Load /> : (
-										<div>
+										<div className="tx-hasicon">
 											{formatValue(this.state.transaction.payment.torewards / 1000000)}
 											<AlgoIcon />
 										</div>

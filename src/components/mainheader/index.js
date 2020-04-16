@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { HamburgerButton } from 'react-hamburger-button';
 import './index.css';
 
-import logo from './logo.svg';
+import logo from './logo.png';
 
 class MainHeader extends React.Component {
 	constructor() {

@@ -9,6 +9,7 @@ import ReactTable from 'react-table-6';
 import AlgoIcon from '../../components/algoicon';
 import 'react-table-6/react-table.css';
 import {formatValue, siteName} from '../../constants';
+import Load from '../../components/tableloading';
 
 class Transactions extends React.Component {
 	constructor() {
@@ -91,21 +92,21 @@ class Transactions extends React.Component {
 				/>
 				<div className="cardcontainer">
 					<Statscard
-						stat="Latest block"
-						value="98.201 Billion"
+						stat="Transaction last seen"
+						value={this.state.loading ? <Load /> : formatValue(this.state.transactions[0].round)}
 					/>
 					<Statscard
 						stat="Transactions sent (24H)"
-						value="98.201 Billion"
+						value=""
 					/>
 					<Statscard
 						stat="Volume (24H)"
-						value="98.201 Billion"
+						value=""
 					/>
 				</div>
 				<div className="table">
 					<div>
-						<p>{this.state.max_transactions} transactions found</p>
+						<p>{this.state.loading ? "Loading" : formatValue(this.state.max_transactions)} transactions found</p>
 						<p>(Showing the last {this.state.transactions.length} records)</p>
 					</div>
 					<div>

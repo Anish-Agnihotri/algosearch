@@ -10,7 +10,7 @@ import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
 import AlgoIcon from '../../components/algoicon';
 import Load from '../../components/tableloading';
-import {siteName} from '../../constants';
+import {siteName, formatValue} from '../../constants';
 
 class Blocks extends React.Component {
 	constructor() {
@@ -102,7 +102,7 @@ class Blocks extends React.Component {
 				<div className="cardcontainer">
 					<Statscard
 						stat="Latest round"
-						value={this.state.loading ? <Load /> : this.state.current_round}
+						value={this.state.loading ? <Load /> : formatValue(this.state.current_round)}
 					/>
 					<Statscard
 						stat="Average Block Time"
@@ -120,7 +120,7 @@ class Blocks extends React.Component {
 				</div>
 				<div className="table">
 					<div>
-						<p>{this.state.loading ? "Loading": this.state.current_round} blocks found</p>
+						<p>{this.state.loading ? "Loading": formatValue(this.state.current_round)} blocks found</p>
 						<p>(Showing the last {this.state.pageSize} records)</p>
 					</div>
 					<div>
