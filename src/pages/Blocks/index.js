@@ -41,7 +41,7 @@ class Blocks extends React.Component {
 
 		axios({
 			method: 'get',
-			url: `${siteName}/all/blocks/${headBlock}/${this.state.pageSize}/0` // Use pageSize from state
+			url: `${siteName}/all/blocks/${headBlock + this.state.pageSize}/${this.state.pageSize}/0` // Use pageSize from state
 		}).then(response => {
 			this.setState({blocks: response.data}); // Set blocks to new data to render
 		}).catch(error => {

@@ -73,6 +73,38 @@
 	font-weight: 400;
 }
 
+.address-button {
+	border: none;
+	background-color: rgba(105, 132, 170, 0.1);
+	vertical-align: middle;
+	margin: 0px 5px;
+	border-radius: 50%;
+	width: 28px;
+	height: 28px;
+	transition: ease-in-out 200ms;
+}
+
+.address-button:focus {
+	outline: none;
+}
+
+.copy {
+	transform: translateX(1.3px);
+}
+
+.address-button > svg {
+	vertical-align: middle;
+}
+
+.address-button:hover {
+	background-color: #6984aa;
+	box-shadow: 0 4px 11px rgba(105,132,170,.35);
+}
+
+.address-button:hover svg > path {
+	fill: #fff !important;
+}
+
 @media screen and (max-width: 600px) {
 	.address-header {
 		padding-left: 5px;

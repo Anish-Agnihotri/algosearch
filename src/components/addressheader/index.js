@@ -1,5 +1,7 @@
 import React from 'react';
 import AlgoIcon from '../../components/algoicon';
+import CopyAddress from './copyaddress';
+import QRAddress from './qraddress';
 import './index.css';
 
 import wallet from './wallet.svg';
@@ -11,7 +13,7 @@ class AddressHeader extends React.Component {
 				<div className="sizer">
 					<div>
 						<div>
-							<h3>Address Information</h3>
+							<h3>Address Information <CopyAddress address={this.props.data.address} /><QRAddress /></h3>
 							<p>{this.props.data.address}</p>
 						</div>
 						<div>

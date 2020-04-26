@@ -41,7 +41,7 @@ class Transactions extends React.Component {
 
 		axios({
 			method: 'get',
-			url: `${siteName}/all/transactions/${headTransaction}/${this.state.pageSize}/0` // Use pageSize from state
+			url: `${siteName}/all/transactions/${headTransaction + this.state.pageSize}/${this.state.pageSize}/0` // Use pageSize from state
 		}).then(response => {
 			this.setState({transactions: response.data.transactions}); // Set transactions to new data to render
 		}).catch(error => {
