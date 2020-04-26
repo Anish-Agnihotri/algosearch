@@ -27,11 +27,11 @@ class HomeSearch extends React.Component {
 					this.props.history.push(`/address/${search}`);
 					break;
 				default:
-					this.props.history.push("/home");
+					this.props.history.push("/404");
 					break;
 			}
 		}).catch(() => {
-			this.props.history.push("/home");
+			this.props.history.push("/404");
 		})
 	}
 	render() {

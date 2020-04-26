@@ -1,0 +1,39 @@
+.FourOhFour {
+	text-align: center;
+	padding: 50px
+}
+
+.FourOhFour > img {
+	max-height: 400px;
+	height: 30vh;
+}
+
+.FourOhFour > h1 {
+	font-size: 40px;
+	margin-block-end: 0px;
+}
+
+.FourOhFour > p {
+	font-size: 17px;
+	margin-block-end: 0px;
+	margin-block-start: 10px;
+}
+
+.FourOhFour > a {
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 16px;
+	display: inline-block;
+	transition: 100ms ease-in-out;
+	background-color: #337afe;
+	color: #fff !important;
+	border-radius: 5px;
+	padding: 7px 10px;
+	margin-block-start: 20px;
+}
+
+.FourOhFour > a:hover {
+	background-color: #256df1;
+	color: #fff;
+	box-shadow: 0 4px 11px rgba(51,122,254,.35);
+}

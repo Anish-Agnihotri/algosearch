@@ -12,6 +12,7 @@ import Transactions from './pages/Transactions';
 import Analytics from './pages/Analytics';
 import RichList from './pages/RichList';
 import Dev from './pages/Dev';
+import FourOhFour from './pages/404';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/analytics" exact component={Analytics} />
           <Route path="/richlist" exact component={RichList} />
           <Route path="/dev" exact component={Dev} />
+          <Route path="/404" exact component={FourOhFour} />
           <Route component={Home} />
         </Switch>
       </Router>
