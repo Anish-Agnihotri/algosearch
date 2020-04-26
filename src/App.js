@@ -17,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <Route component={scrollRestoration} />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/address/:address" component={props => <Address {...props} key={Math.ceil(Math.random() * 10)}/>} />
@@ -33,6 +34,20 @@ function App() {
       </Router>
     </div>
   );
+}
+
+class scrollRestoration extends React.Component {
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.location.pathname !== prevProps.location.pathname
+    ) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  render() {
+    return null;
+  }
 }
 
 export default App;

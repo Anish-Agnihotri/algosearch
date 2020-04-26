@@ -48,8 +48,8 @@ class Block extends React.Component {
 			{Header: 'Type', accessor: 'type', Cell: props => <span className="type noselect">{props.value}</span>},
 			{Header: 'From', accessor: 'from', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>}, 
 			{Header: 'To', accessor: 'payment.to', Cell: props => <NavLink to={`/address/${props.value}`}>{props.value}</NavLink>},
-			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{formatValue(props.value)} <AlgoIcon /></span>},
-			{Header: 'Fee', accessor: 'fee', Cell: props => <span>{formatValue(props.value)} <AlgoIcon /></span>}
+			{Header: 'Amount', accessor: 'payment.amount', Cell: props => <span>{formatValue(props.value/1000000)} <AlgoIcon /></span>},
+			{Header: 'Fee', accessor: 'fee', Cell: props => <span>{formatValue(props.value/1000000)} <AlgoIcon /></span>}
 		];
 
 		return (
