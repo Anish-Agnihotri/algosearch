@@ -23,7 +23,7 @@ export default class CopyAddress extends React.Component {
 		return (
 			this.props.address !== '' ? (
 				<>
-				<ReactTooltip id='copy' place="top" type="dark">
+				<ReactTooltip id='copy' className='copy-style' place="top" type="dark" effect="solid">
 					<span>{this.state.copied ? 'Address copied' : '    Copy Address    '}</span>
 				</ReactTooltip>
 				<button className="address-button" onClick={this.copyAddress} data-tip data-for='copy'>

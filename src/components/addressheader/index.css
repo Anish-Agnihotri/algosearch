@@ -105,6 +105,15 @@
 	fill: #fff !important;
 }
 
+.qr-style {
+	padding: 5px 5px 2.5px 5px !important;
+	margin-top: 7px !important;
+}
+
+.copy-style {
+	margin-top: -3px !important;
+}
+
 @media screen and (max-width: 600px) {
 	.address-header {
 		padding-left: 5px;

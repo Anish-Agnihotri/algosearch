@@ -13,7 +13,7 @@ class AddressHeader extends React.Component {
 				<div className="sizer">
 					<div>
 						<div>
-							<h3>Address Information <CopyAddress address={this.props.data.address} /><QRAddress /></h3>
+							<h3>Address Information <CopyAddress address={this.props.data.address} /><QRAddress address={this.props.data.address} /></h3>
 							<p>{this.props.data.address}</p>
 						</div>
 						<div>
