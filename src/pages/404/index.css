@@ -37,3 +37,10 @@
 	color: #fff;
 	box-shadow: 0 4px 11px rgba(51,122,254,.35);
 }
+
+@media screen and (max-width: 400px) {
+	.FourOhFour > img {
+		max-height: 200px;
+		height: 20vh;
+	}
+}

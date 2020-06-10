@@ -36,11 +36,9 @@ class MainHeader extends React.Component {
 				<div className="menu">
 					<nav>
 						<ul>
-							<li><NavLink to="/home">Home</NavLink></li>
+							<li><NavLink to="/" exact>Home</NavLink></li>
 							<li><NavLink to="/blocks">Blocks</NavLink></li>
 							<li><NavLink to="/transactions">Transactions</NavLink></li>
-							<li><NavLink to="/analytics">Analytics</NavLink></li>
-							<li><NavLink to="/richlist">Rich List</NavLink></li>
 							<li><NavLink to="/dev">Developer APIs</NavLink></li>
 						</ul>
 					</nav>
@@ -59,11 +57,9 @@ class MainHeader extends React.Component {
 				<div className={`menu-mobile ${this.state.open ? "shown" : "hidden"}`}>
 					<nav>
 						<ul>
-							<li><NavLink to="/home">Home</NavLink></li>
+							<li><NavLink to="/" exact>Home</NavLink></li>
 							<li><NavLink to="/blocks">Blocks</NavLink></li>
 							<li><NavLink to="/transactions">Transactions</NavLink></li>
-							<li><NavLink to="/analytics">Analytics</NavLink></li>
-							<li><NavLink to="/richlist">Rich List</NavLink></li>
 							<li><NavLink to="/dev">Developer APIs</NavLink></li>
 						</ul>
 					</nav>

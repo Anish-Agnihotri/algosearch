@@ -27,8 +27,6 @@ function App() {
           <Route path="/block/:blocknum" component={props => <Block {...props} key={Math.ceil(Math.random() * 10)}/>} />
           <Route path="/transactions" exact component={Transactions} />
           <Route path="/tx/:txid" component={Transaction} />
-          <Route path="/analytics" exact component={Analytics} />
-          <Route path="/richlist" exact component={RichList} />
           <Route path="/dev" exact component={Dev} />
           <Route path="/404" exact component={FourOhFour} />
           <Route component={Home} />

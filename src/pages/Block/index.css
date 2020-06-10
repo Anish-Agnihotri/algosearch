@@ -60,6 +60,13 @@
 	padding-right: 15px;
 }
 
+@media screen and (max-width: 400px) {
+	.block-table > div > table > tbody > tr > td:last-child {
+		font-size: 11px;
+		line-height: 30px;
+	}
+}
+
 .block-table > div > table > tbody > tr > td {
 	border-bottom: 1px solid rgb(231, 234, 243);
 }

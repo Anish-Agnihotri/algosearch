@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import './index.css';
 
 import AddressHeader from '../addressheader';
@@ -8,6 +9,14 @@ import Footer from '../footer';
 import HomeHeader from '../homeheader';
 
 class Layout extends React.Component {
+	componentDidMount() {
+		// Moment global setup
+		moment.updateLocale('en', {
+			relativeTime: {
+				s: number=>number + " seconds",
+			}
+		});
+	}
 	render() {
 		return (
 			<div className="layout">
@@ -27,7 +36,7 @@ class Layout extends React.Component {
 				{this.props.homepage ? (
 					<HomeHeader synced={this.props.synced} />
 				) : null}
-				<div className="content">
+				<div className={`content ${this.props.homepage ? "content-shortened" : ""}`}>
 					<div className="sizer">
 						{this.props.children}
 					</div>

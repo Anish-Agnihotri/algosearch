@@ -1,6 +1,5 @@
 .address-header {
 	background-color: #fafcff;
-	box-shadow: inset 0px 3px 8px rgb(151, 164, 175, .1);
 	padding-bottom: 30px;
 	border-bottom: 1px solid #e7eaf3;
 }
@@ -112,6 +111,7 @@
 
 .copy-style {
 	margin-top: -3px !important;
+	z-index: 2000;
 }
 
 @media screen and (max-width: 600px) {

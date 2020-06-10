@@ -16,6 +16,11 @@
 
 .logo > a {
 	text-decoration: none;
+	transition: 50ms ease-in-out;
+}
+
+.logo > a:hover {
+	opacity: 0.8;
 }
 
 .logo > a > img {

@@ -29,6 +29,9 @@
 	.home-split > div {
 		width: 100%;
 		padding: 0px 0px 0px 0px !important;
+		margin-left: 0px !important;
+		margin-right: 0px !important;
+
 	}
 	.home-split {
 		margin-top: 30px;
