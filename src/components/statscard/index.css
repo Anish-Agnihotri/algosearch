@@ -113,7 +113,7 @@
 
 @media screen and (max-width: 850px) {
 	.statscard {
-		width: 96%;
+		width: calc(100% - 20px);
 		margin-bottom: 15px;
 	}
 	.cardcontainer > div:nth-child(3) {
