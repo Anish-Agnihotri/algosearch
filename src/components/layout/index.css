@@ -41,6 +41,12 @@
 	background-color: var(--bg-dark);
 }
 
+.subfooter {
+	background-color: #fafcff;
+	padding: 64px 0px;
+	border-top: 1px solid #e7eaf3;
+}
+
 .scrolltop {
 	position: fixed;
 	width: 40px !important;

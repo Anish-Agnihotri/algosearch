@@ -7,6 +7,7 @@ import HeaderSearch from '../headersearch';
 import MainHeader from '../mainheader';
 import Footer from '../footer';
 import HomeHeader from '../homeheader';
+import HomeFooter from '../homefooter';
 
 class Layout extends React.Component {
 	state = {
@@ -67,6 +68,13 @@ class Layout extends React.Component {
 						{this.props.children}
 					</div>
 				</div>
+				{this.props.homepage ? (
+					<div className="subfooter">
+						<div className="sizer">
+							<HomeFooter />
+						</div>
+					</div>
+				) : null }
 				<div className="footer">
 					<div className="sizer">
 						<Footer />
