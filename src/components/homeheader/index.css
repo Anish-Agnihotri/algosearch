@@ -21,6 +21,7 @@
 .home-search > div > div:first-child > h1 > img {
 	height: 38px;
 	vertical-align: top;
+	margin-top: 3.5px;
 	margin-right: 10px;
 }
 

@@ -47,6 +47,7 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
+		document.title="AlgoSearch (ALGO) Blockchain Explorer";
 		this.getPrice();
 		this.getLatest();
 	}

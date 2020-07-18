@@ -27,17 +27,17 @@
 }
 
 .content {
-	min-height: calc(100vh - 165px);
+	min-height: calc(100vh - 185px);
 	background-color: #fff;
 	position: relative;
 }
 
 .content-shortened {
-	min-height: calc(100vh - 215px);
+	min-height: calc(100vh - 235px);
 }
 
 .footer {
-	height: 60px;
+	height: 80px;
 	background-color: var(--bg-dark);
 }
 
