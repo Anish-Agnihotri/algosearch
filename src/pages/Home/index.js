@@ -47,7 +47,6 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
-		document.title="AlgoSearch | Home";
 		this.getPrice();
 		this.getLatest();
 	}
