@@ -41,6 +41,38 @@
 	background-color: var(--bg-dark);
 }
 
+.scrolltop {
+	position: fixed;
+	width: 40px !important;
+	height: 40px !important;
+	bottom: 15px;
+	right: 15px;
+	border-radius: 4px;
+	background-color: #337afe;
+	opacity: 0.5;
+	z-index: 9999;
+	display: inline-block;
+	transition: 200ms ease-in-out;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	font-size: 15px;
+	transform: rotate(-90deg);
+}
+
+.scrolltop:hover {
+	opacity: 1;
+}
+
+.scrolltop:focus {
+	outline: none;
+}
+
+.hiddenscroll {
+	opacity: 0;
+	visibility: hidden;
+}
+
 @media screen and (min-width: 1300px) {
 	.sizer {
 		width: 1200px;
