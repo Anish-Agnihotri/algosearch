@@ -32,14 +32,14 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	color: #6984aa;
+	color: #536d93;
 	font-weight: 500;
 	font-size: 15px;
 	margin-block-start: 0px;
 }
 
 .address-header > div > div > div:last-child > h6 {
-	color: #6984aa;
+	color: #536d93;
 	text-transform: uppercase;
 	font-size: 13px;
 	margin-block-end: 5px;
@@ -66,7 +66,7 @@
 }
 
 .address-header > div > div > div:last-child > p > span {
-	color: #7f96ae;
+	color: #5a728c;
 	text-transform: uppercase;
 	font-size: 24px;
 	font-weight: 400;
@@ -96,7 +96,7 @@
 }
 
 .address-button:hover {
-	background-color: #6984aa;
+	background-color: #536d93;
 	box-shadow: 0 4px 11px rgba(105,132,170,.35);
 }
 

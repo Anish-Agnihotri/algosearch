@@ -8,7 +8,7 @@ export default class Load extends React.Component {
 		return (
 			<Loader
 				type="ThreeDots"
-				color="#6984aa"
+				color="#536d93"
 				className="loader"
 				height={7}
 			/>

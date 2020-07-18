@@ -29,7 +29,7 @@
 	display: inline-block;
 	width: calc(100% - 31px);
 	font-size: 14px;
-	color: #7f96ae;
+	color: #5a728c;
 	font-weight: 500;
 	border: none;
 	background-color: transparent;
@@ -37,7 +37,7 @@
 
 .searchbar > input::placeholder {
 	font-weight: 500;
-	color: #7f96ae;
+	color: #5a728c;
 }
 
 .searchbar > input:focus {

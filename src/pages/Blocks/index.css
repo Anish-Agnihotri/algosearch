@@ -12,14 +12,14 @@
 }
 
 .table > div:first-child > p:first-child {
-	color: #6984aa;
+	color: #536d93;
 	font-weight: 500;
 	font-size: 18px;
 	margin-block-end: 5px;
 }
 
 .table > div:first-child > p:last-child {
-	color: #7f96ae;
+	color: #5a728c;
 	font-size: 13px;
 	font-weight: 500;
 	margin-block-start: 0px;
@@ -37,7 +37,7 @@
 	height: 40px;
 	font-size: 13px;
 	text-transform: uppercase;
-	color: #7f96ae;
+	color: #5a728c;
 	font-weight: 700;
 	box-shadow: none !important;
 }
@@ -129,7 +129,7 @@
 	background-color: rgba(105, 132, 170, 0.1) !important;
 	border: none !important;
 	width: 100px !important;
-	color: #6984aa !important;
+	color: #536d93 !important;
 	font-weight: 500;
 	transition: 100ms ease-in-out;
 	display: inline-block !important;
@@ -137,7 +137,7 @@
 
 .-previous > button:hover, .-next > button:hover {
 	color: #fff !important;
-	background-color: #6984aa !important;
+	background-color: #536d93 !important;
 	box-shadow: 0 4px 11px rgba(105,132,170,.35);
 }
 
@@ -150,7 +150,7 @@
 	font-size: 14px;
 	text-transform: uppercase;
 	font-weight: 500;
-	color: #6984aa;
+	color: #536d93;
 }
 
 .-next {

@@ -49,7 +49,7 @@ class MainHeader extends React.Component {
 							width={25}
 							height={12}
 							strokeWidth={2}
-							color='#7f96ae'
+							color='#5a728c'
 							animationDuration={0.5}
 						/>
 					</div>

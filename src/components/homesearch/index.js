@@ -37,7 +37,7 @@ class HomeSearch extends React.Component {
 	render() {
 		return (
 			<div className="home-search-bar">
-				<input type="search" onChange={e => this.setState({query: e.target.value})} onKeyDown={e => e.key === 'Enter' ? this.search(): null} placeholder="Search by Address / TX ID / Block"/>
+				<input type="search" aria-label="Search by Address, Transaction ID, or Block" onChange={e => this.setState({query: e.target.value})} onKeyDown={e => e.key === 'Enter' ? this.search(): null} placeholder="Search by Address / TX ID / Block"/>
 			</div>
 		);
 	}
