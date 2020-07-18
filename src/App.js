@@ -9,8 +9,6 @@ import Block from './pages/Block';
 import Blocks from './pages/Blocks';
 import Transaction from './pages/Transaction';
 import Transactions from './pages/Transactions';
-import Analytics from './pages/Analytics';
-import RichList from './pages/RichList';
 import Dev from './pages/Dev';
 import FourOhFour from './pages/404';
 
